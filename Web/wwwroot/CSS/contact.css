@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css?family=Numans');
+
+
+html, body {
+    background-image: url('imgs/log_back.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #8c2222;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+    text-shadow:
+      -1px -1px #f4cccc,
+      1px -1px 0 #f4cccc,
+      -1px 1px 0 #f4cccc,
+      1px 1px 0 #f4cccc,  
+      -2px 0 0 #f4cccc,
+      2px 0 0 #f4cccc,
+      0 2px 0 #f4cccc,
+      0 -2px 0 #f4cccc;
+}
+
+
+.column-one {
+    position: relative;
+    margin: auto;
+    width: 50%;
+    bottom: 5px;
+    float: left;
+}
+
+.column-two {
+
+    position: relative;
+    margin: auto;
+    width: 50%;
+    bottom: 5px;
+    float: left;
+}
+
+.row-one {
+
+    position: relative;
+    margin: auto;
+    width: 50%;
+    bottom: 5px;
+
+}
+
+.row-two {
+
+    position: relative;
+    margin: auto;
+    width: 50%;
+    bottom: 5px;
+
+}

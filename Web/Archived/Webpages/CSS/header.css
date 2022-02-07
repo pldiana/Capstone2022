@@ -1,0 +1,64 @@
+.logo img:nth-child(1) {
+	height: 120px;
+	width: 100%;
+	margin-top: 20px;
+}
+
+.logo img:nth-child(1):active {
+	opacity: 0.5;
+}
+
+.social img:nth-child(1) {
+	width: 30px;
+	height: 30px;
+	margin-bottom: 10px;
+}
+
+.social img:nth-child(1):active {
+	opacity: 0.5;
+}
+
+.list ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+/*to make list look like a navigation bar*/
+.list li a {
+	display: block;
+	color: #000000;
+	padding: 14px;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 125%;
+	text-decoration: none;
+	text-align: left;
+	width: 125px;
+}
+
+
+/* to change hover color*/
+.list li a:hover {
+	background-color: 	#FFC312;
+}
+
+.list li a:active {
+	opacity: 0.5;
+}
+
+.profile_button {
+	position: fixed;
+	top: 0px;
+	right: 0px;
+}
+
+.profile_button img {
+	width: 100px;
+	height: 50px;
+}
+
+.profile_button:active {
+	opacity: 0.5;
+}
+
