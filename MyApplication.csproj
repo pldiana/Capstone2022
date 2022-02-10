@@ -1,0 +1,206 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'Mudblazor.Template' ">
+	  <ExternalConsole>true</ExternalConsole>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
+		<PackageReference Include="MudBlazor" Version="6.0.6" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <Compile Remove="API\CryptoDevilAPI_Tests\obj\Debug\net5.0\.NETCoreApp,Version=v5.0.AssemblyAttributes.cs" />
+	  <Compile Remove="API\CryptoDevilAPI_Tests\UserExchangeDATests.cs" />
+	  <Compile Remove="API\CryptoDevilAPI_Tests\UnitTest1.cs" />
+	  <Compile Remove="API\CryptoDevilAPI_Tests\obj\Debug\net5.0\CryptoDevilAPI_Tests.AssemblyInfo.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Controllers\AdminController.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Startup.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Program.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.AssemblyInfo.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\obj\Debug\net5.0\.NETCoreApp,Version=v5.0.AssemblyAttributes.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.MvcApplicationPartsAssemblyInfo.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Repositories\IUserExchangeRepository.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Repositories\AdminRepository.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Repositories\IAdminRepository.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Repositories\ExchangeRepository.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Repositories\UserExchangeRepository.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Repositories\IExchangeRepository.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\DataAccess\IExchangeDA.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\DataAccess\IUserExchangeDA.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\DataAccess\ExchangeDA.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\DataAccess\UserExchangeDA.cs" />
+	  <Compile Remove="API\CryptoDevilAPI\Controllers\UserExchangeController.cs" />
+	  <Compile Remove="Models\Candle.cs" />
+	  <Compile Remove="Models\Exchange.cs" />
+	  <Compile Remove="Models\Strategy.cs" />
+	  <Compile Remove="Models\CryptoToken.cs" />
+	  <Compile Remove="Models\Phone.cs" />
+	  <Compile Remove="Models\User.cs" />
+	  <Compile Remove="Models\StrategyInstance.cs" />
+	  <Compile Remove="Models\Subscription.cs" />
+	  <Compile Remove="Models\ITradingStrategy.cs" />
+	  <Compile Remove="Models\UserExchange.cs" />
+	  <Compile Remove="Models\TimeFrame.cs" />
+	  <Compile Remove="Models\TradeAdvice.cs" />
+	  <Compile Remove="Models\ExchangeInstance.cs" />
+	  <Compile Remove="Models\PhoneType.cs" />
+	  <Compile Remove="Models\obj\Debug\net5.0\Models.AssemblyInfo.cs" />
+	  <Compile Remove="Models\obj\Debug\net5.0\.NETCoreApp,Version=v5.0.AssemblyAttributes.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="API\CryptoDevilAPI_Tests\obj\CryptoDevilAPI_Tests.csproj.nuget.g.props" />
+	  <None Remove="API\CryptoDevilAPI_Tests\obj\CryptoDevilAPI_Tests.csproj.nuget.g.targets" />
+	  <None Remove="API\CryptoDevilAPI_Tests\bin\Debug\net5.0\CoverletSourceRootsMapping" />
+	  <None Remove="API\CryptoDevilAPI_Tests\obj\project.nuget.cache" />
+	  <None Remove="API\CryptoDevilAPI_Tests\obj\Debug\net5.0\CryptoDevilAPI_Tests.csproj.AssemblyReference.cache" />
+	  <None Remove="API\CryptoDevilAPI_Tests\obj\Debug\net5.0\CryptoDevilAPI_Tests.assets.cache" />
+	  <None Remove="API\CryptoDevilAPI_Tests\obj\Debug\net5.0\CryptoDevilAPI_Tests.AssemblyInfoInputs.cache" />
+	  <None Remove="API\CryptoDevilAPI_Tests\obj\Debug\net5.0\CryptoDevilAPI_Tests.GeneratedMSBuildEditorConfig.editorconfig" />
+	  <None Remove="API\.DS_Store" />
+	  <None Remove="API\CryptoDevilAPI\.dockerignore" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\MongoDB.Driver.Core.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\CryptoDevilAPI.pdb" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Microsoft.CodeAnalysis.CSharp.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\MongoDB.Driver.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\MongoDB.Libmongocrypt.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Trady.Analysis.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Microsoft.OpenApi.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\CryptoDevilAPI.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Microsoft.CodeAnalysis.Scripting.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Models.pdb" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Microsoft.CodeAnalysis.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Newtonsoft.Json.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\CryptoDevilAPI" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\MongoDB.Bson.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Trady.Core.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Models.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\DnsClient.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\SharpCompress.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\pl\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\pl\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\pl\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ref\CryptoDevilAPI.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ja\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ja\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ja\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\it\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\it\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\it\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\cs\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\cs\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\cs\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\osx\native\libmongocrypt.dylib" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\osx\native\libsnappy64.dylib" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\osx\native\libzstd.dylib" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\win\native\snappy64.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\win\native\mongocrypt.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\win\native\snappy32.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\win\native\libzstd.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\linux\native\libzstd.so" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\linux\native\libmongocrypt.so" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\runtimes\linux\native\libsnappy64.so" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ru\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ru\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ru\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\pt-BR\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\pt-BR\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\de\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\de\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\de\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ko\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ko\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\ko\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\fr\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\fr\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\fr\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\es\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\es\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\es\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\tr\Microsoft.CodeAnalysis.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\tr\Microsoft.CodeAnalysis.CSharp.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\bin\Debug\net5.0\tr\Microsoft.CodeAnalysis.Scripting.resources.dll" />
+	  <None Remove="API\CryptoDevilAPI\Dockerfile" />
+	  <None Remove="API\CryptoDevilAPI\obj\CryptoDevilAPI.csproj.nuget.g.props" />
+	  <None Remove="API\CryptoDevilAPI\obj\project.nuget.cache" />
+	  <None Remove="API\CryptoDevilAPI\obj\CryptoDevilAPI.csproj.nuget.g.targets" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.csproj.FileListAbsolute.txt" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.genruntimeconfig.cache" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.GeneratedMSBuildEditorConfig.editorconfig" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.pdb" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.csproj.CopyComplete" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\apphost" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.RazorTargetAssemblyInfo.cache" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.AssemblyInfoInputs.cache" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.dll" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.csproj.AssemblyReference.cache" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.MvcApplicationPartsAssemblyInfo.cache" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.csproj.CoreCompileInputs.cache" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\CryptoDevilAPI.assets.cache" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\staticwebassets\CryptoDevilAPI.StaticWebAssets.Manifest.cache" />
+	  <None Remove="API\CryptoDevilAPI\obj\Debug\net5.0\ref\CryptoDevilAPI.dll" />
+	  <None Remove="Models\bin\Debug\net5.0\Models.pdb" />
+	  <None Remove="Models\bin\Debug\net5.0\Models.dll" />
+	  <None Remove="Models\bin\Debug\net5.0\ref\Models.dll" />
+	  <None Remove="Models\obj\Models.csproj.nuget.g.props" />
+	  <None Remove="Models\obj\Models.csproj.nuget.g.targets" />
+	  <None Remove="Models\obj\project.nuget.cache" />
+	  <None Remove="Models\obj\Debug\net5.0\Models.AssemblyInfoInputs.cache" />
+	  <None Remove="Models\obj\Debug\net5.0\Models.csproj.CoreCompileInputs.cache" />
+	  <None Remove="Models\obj\Debug\net5.0\Models.GeneratedMSBuildEditorConfig.editorconfig" />
+	  <None Remove="Models\obj\Debug\net5.0\Models.pdb" />
+	  <None Remove="Models\obj\Debug\net5.0\Models.assets.cache" />
+	  <None Remove="Models\obj\Debug\net5.0\Models.csproj.AssemblyReference.cache" />
+	  <None Remove="Models\obj\Debug\net5.0\Models.dll" />
+	  <None Remove="Models\obj\Debug\net5.0\Models.csproj.FileListAbsolute.txt" />
+	  <None Remove="Models\obj\Debug\net5.0\ref\Models.dll" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Remove="API\CryptoDevilAPI_Tests\obj\CryptoDevilAPI_Tests.csproj.nuget.dgspec.json" />
+	  <Content Remove="API\CryptoDevilAPI_Tests\obj\project.assets.json" />
+	  <Content Remove="API\CryptoDevilAPI\appsettings.json" />
+	  <Content Remove="API\CryptoDevilAPI\appsettings.Development.json" />
+	  <Content Remove="API\CryptoDevilAPI\bin\Debug\net5.0\CryptoDevilAPI.runtimeconfig.dev.json" />
+	  <Content Remove="API\CryptoDevilAPI\bin\Debug\net5.0\appsettings.json" />
+	  <Content Remove="API\CryptoDevilAPI\bin\Debug\net5.0\CryptoDevilAPI.deps.json" />
+	  <Content Remove="API\CryptoDevilAPI\bin\Debug\net5.0\appsettings.Development.json" />
+	  <Content Remove="API\CryptoDevilAPI\bin\Debug\net5.0\CryptoDevilAPI.runtimeconfig.json" />
+	  <Content Remove="API\CryptoDevilAPI\obj\CryptoDevilAPI.csproj.nuget.dgspec.json" />
+	  <Content Remove="API\CryptoDevilAPI\obj\project.assets.json" />
+	  <Content Remove="API\CryptoDevilAPI\Properties\launchSettings.json" />
+	  <Content Remove="Models\bin\Debug\net5.0\Models.deps.json" />
+	  <Content Remove="Models\obj\Models.csproj.nuget.dgspec.json" />
+	  <Content Remove="Models\obj\project.assets.json" />
+	</ItemGroup>
+</Project>
