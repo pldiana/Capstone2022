@@ -1,0 +1,43 @@
+﻿@page "/pages/alerts"
+
+<MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+
+<MudGrid>
+    <MudItem md="4" xs="12">
+        <MudAlert Severity="Severity.Normal" Dense="true" Class="my-2">Dense Default</MudAlert>
+        <MudButton Variant="Variant.Filled">Default</MudButton>
+        <MudAlert Severity="Severity.Info" Dense="true" Class="my-2">Dense Info</MudAlert>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary">Primary</MudButton>
+        <MudAlert Severity="Severity.Success" Dense="true" Class="my-2">Dense Success</MudAlert>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary">Secondary</MudButton>
+        <MudAlert Severity="Severity.Warning" Dense="true" Class="my-2">Dense Warning</MudAlert>
+        <MudButton Variant="Variant.Filled">Default</MudButton>
+        <MudAlert Severity="Severity.Error" Dense="true" Class="my-2">Dense Error</MudAlert>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary">Primary</MudButton>
+    </MudItem>
+</MudGrid>
+
+<MudGrid>
+    <MudItem xs="36" sm="36" md="6"></MudItem>
+</MudGrid>
+
+Visit our
+<MudElement HtmlTag="a"
+            Class="ma-0"
+            Style="color:maroon;font-weight:bold;"
+            href="https://github.com/MudBlazor/MudBlazor"
+            target="blank"
+            rel="noopener noreferrer">
+    Twitter!
+</MudElement>
+
+@code {
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/personal/dashboard"),
+        new BreadcrumbItem("Alerts", href: "/pages/alerts"),
+    };
+
+}
+

@@ -33,6 +33,15 @@ namespace CryptoDevilAPI.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        //[Authorize]
+        [Route("exchange/{exchangename}")]
+        public async Task<ActionResult> GetExchange(string exchangename)
+        {
+            var result = await _adminRepository.GetOneExchangeAsync(exchangename);
+            return Ok(result);
+        }
+
         [HttpPost]
         //[Authorize]
         [Route("exchange")]

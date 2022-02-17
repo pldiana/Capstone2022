@@ -1,0 +1,38 @@
+﻿@page "/pages/utility/about"
+
+<MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+
+<MudCard>
+    <MudCardContent>
+        <MudText Align="Align.Center">We here at CryptoDevil strive to provide an easier, more efficient trading experience for crypto-currency owners. We understand the frustration of having to
+    constantly monitor price changes, and determine the most opportune moments to buy and sell currency. That is why our mission is to make this process completely 
+    automatic, so that you can get the most out of yoru currency without having to invest countless hours staring at candles. The best part about CryptoDevil is that 
+    users can tailor their account to perform exchanges that align with their preferences, so you are not sacrificing the autonomy you have by buying and selling manually.
+    Subscribe with us today and experience just how powerful CryptoDevil can be!
+        </MudText>
+    </MudCardContent>
+</MudCard>
+@*
+<MudGrid>
+    <MudItem xs="48" sm="48" md="8"></MudItem>
+</MudGrid>*@
+
+Visit our
+<MudElement HtmlTag="a"
+            Class="ma-0"
+            Style="color:maroon;font-weight:bold;"
+            href="https://github.com/MudBlazor/MudBlazor"
+            target="blank"
+            rel="noopener noreferrer">
+    Twitter!
+</MudElement>
+
+@code {
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/personal/dashboard"),
+        new BreadcrumbItem("About", href: "/pages/about"),
+    };
+
+}

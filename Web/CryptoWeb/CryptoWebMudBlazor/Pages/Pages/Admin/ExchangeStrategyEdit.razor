@@ -1,0 +1,40 @@
+﻿@page "/pages/admin/exchangestrategyedit/{exchangename}/{strategyname}"
+@using Models
+@using System.ComponentModel.DataAnnotations
+
+
+<EditForm Model="@StrategyItem">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Exchange Name"
+                              @bind-Value="ExchangeName" ReadOnly = "true"/>
+                <MudTextField Label="Strategy Name"
+                              @bind-Value="StrategyItem.Name" ReadOnly = "true"/>
+                <MudTextField Label="Is Active" Class="mt-3"
+                              @bind-Value="StrategyItem.IsActive"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+</EditForm>
+@code {
+
+    public Strategy StrategyItem { get; set; } = new Strategy();
+
+    [Parameter]
+    public string ExchangeName { get; set; }
+    [Parameter]
+    public string StrategyName { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        StrategyItem.Name = StrategyName;
+    }
+
+}

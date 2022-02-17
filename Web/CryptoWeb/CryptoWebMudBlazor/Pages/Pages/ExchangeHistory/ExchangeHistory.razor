@@ -1,0 +1,62 @@
+﻿@page "/pages/exchangehistory"
+@using Models
+
+<MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+
+<MudTable Items="@_exchanges">
+    <HeaderContent>
+        <MudTh>Account Name</MudTh>
+        <MudTh>Key</MudTh>
+        <MudTh>Auto Liquidate</MudTh>
+        <MudTh>Active Strategy Count</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.AccountName</MudTd>
+        <MudTd>@context.Key</MudTd>
+        <MudTd>@context.AutoLiquidate</MudTd>
+        <MudTd>@context.StrategyList.Count</MudTd>
+    </RowTemplate>
+
+</MudTable> 
+
+Visit our
+<MudElement HtmlTag="a"
+            Class="ma-0"
+            Style="color:maroon;font-weight:bold;"
+            href="https://github.com/MudBlazor/MudBlazor"
+            target="blank"
+            rel="noopener noreferrer">
+    Twitter!
+</MudElement>
+
+@code {
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/personal/dashboard"),
+        new BreadcrumbItem("Exchange History", href: "/pages/exchangehistory"),
+    };
+
+    private IEnumerable<ExchangeInstance> _exchanges = new List<ExchangeInstance>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _exchanges = new List<ExchangeInstance>()
+        {
+            new ExchangeInstance()
+            {
+                AccountName = "TestAccount",
+                Key = "TestKey",
+                AutoLiquidate = false,
+                StrategyList = new List<StrategyInstance> ()
+                {
+                    new StrategyInstance()
+                    {
+                        AutoLiquidate = false
+                    }
+                }
+            }
+        };
+    }
+}
+

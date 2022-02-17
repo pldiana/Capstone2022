@@ -12,5 +12,6 @@ namespace CryptoDevilAPI.Repositories
         Task<List<Exchange>> GetAllExchangesAsync();
         Task UpdateOneExchangeAsync(Exchange exchange);
         Task DeleteOneExchangeAsync(Exchange exchange);
+        Task<Exchange> GetOneExchangeAsync(string exchangeName);
     }
 }

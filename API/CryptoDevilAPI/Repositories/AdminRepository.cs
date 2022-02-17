@@ -25,6 +25,11 @@ namespace CryptoDevilAPI.Repositories
             return await _exchangeDA.GetAllExchangesAsync();
         }
 
+        public async Task<Exchange> GetOneExchangeAsync(string exchangeName)
+        {
+            return await _exchangeDA.GetExchangeByNameAsync(exchangeName);
+        }
+
         public async Task InsertOneExchangeAsync(Exchange exchange)
         {
             await _exchangeDA.InsertOneAsync(exchange);

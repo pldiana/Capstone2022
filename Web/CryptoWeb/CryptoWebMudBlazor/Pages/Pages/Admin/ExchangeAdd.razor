@@ -1,0 +1,53 @@
+﻿@page "/pages/admin/exchangeadd"
+@using Models
+@using System.ComponentModel.DataAnnotations
+
+
+<EditForm Model="@ExchangeItem">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Exchange Name"
+                              @bind-Value="ExchangeItem.Name"/>
+                <MudTextField Label="Is Active" Class="mt-3"
+                              @bind-Value="ExchangeItem.IsActive"/>
+            </MudCardContent>
+            <MudCardActions>
+                @*NEW*@
+                <MudButton ButtonType="ButtonType.Submit" @onclick="@OnSubmitExchange" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Submit
+
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+</EditForm>
+@code {
+
+    public Exchange ExchangeItem { get; set; } = new Exchange();
+
+    protected async override Task OnInitializedAsync()
+    {
+    }
+
+    //NEW
+    protected void OnSubmitExchange (MouseEventArgs mouseEventArgs)
+    {
+        var _httpClient = new HttpClient();
+        _httpClient.BaseAddress = new Uri("https://localhost:5001/admin/exchange");
+
+        //var eItem = _httpClient.GetFromJsonAsync<Exchange>($"/{ExchangeItem.Name}").GetAwaiter().GetResult();
+
+        //if (eItem != null)
+        //{
+        //    //display error that the exchange name already exists
+        //}
+        //else
+        //{
+            _httpClient.PostAsJsonAsync<Exchange>("", ExchangeItem).GetAwaiter().GetResult();            
+        //}
+    }
+
+}

@@ -14,5 +14,6 @@ namespace Models
         public List<Strategy> AvailableStrategies { get; set; }
         [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
         public Object Id { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

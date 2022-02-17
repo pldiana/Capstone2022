@@ -1,0 +1,36 @@
+﻿@page "/pages/admin/exchangeedit/{name}"
+@using Models
+@using System.ComponentModel.DataAnnotations
+
+
+<EditForm Model="@ExchangeItem">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Exchange Name"
+                              @bind-Value="ExchangeItem.Name"/>
+                <MudTextField Label="Is Active" Class="mt-3"
+                              @bind-Value="ExchangeItem.IsActive"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+</EditForm>
+@code {
+
+    public Exchange ExchangeItem { get; set; } = new Exchange();
+
+    [Parameter]
+    public string Name { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        ExchangeItem.Name = Name;
+    }
+
+}

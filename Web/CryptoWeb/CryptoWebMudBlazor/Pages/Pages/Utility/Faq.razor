@@ -1,0 +1,57 @@
+﻿@page "/pages/utility/faq"
+
+<MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+
+<MudGrid>
+    <MudItem xs="12" sm="12" md="10">
+    </MudItem>
+    <MudItem xs="12" sm="12" md="2"></MudItem>
+    <MudItem xs="12" sm="12" md="10">
+        <MudText Typo="Typo.h6" GutterBottom="true">General</MudText>
+        <MudExpansionPanels >
+            <MudExpansionPanel Text="How do I update or cancel my subscription?">
+                <MudText Typo="Typo.body2">You can manage your subscription by navigating to your account details page, located <MudLink Href="/personal/account">here</MudLink>.</MudText>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="How do I update my personal information and/or update my password?">
+                <MudText Typo="Typo.body2">You can manage your account as well as change your password by navigating to your account details page, located <MudLink Href="/personal/account">here</MudLink>.</MudText>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+        <MudText Typo="Typo.h6" GutterBottom="true" Class="mt-8">Contact</MudText>
+        <MudExpansionPanels >
+            <MudExpansionPanel Text="Where can I contact CryptoDevil?">
+                <MudText Typo="Typo.body2">You can contact us at our email: <br /><br /> cryptodevilapp@gmail.com</MudText>
+            </MudExpansionPanel>
+        </MudExpansionPanels>        
+        <MudText Typo="Typo.h6" GutterBottom="true" Class="mt-8">Refund Policy</MudText>
+        <MudExpansionPanels >
+            <MudExpansionPanel Text="Can I refund my subscription?">
+                <MudText Typo="Typo.body2">If you would like to refund your subscription, please contact us at our email to dispute your claim: <br /><br /> cryptodevilapp@gmail.com</MudText>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudItem>
+    <MudItem xs="24" sm="24" md="4"></MudItem>
+</MudGrid>
+
+<MudGrid>
+    <MudItem xs="24" sm="24" md="4"></MudItem>
+</MudGrid>
+
+Visit our
+<MudElement HtmlTag="a"
+            Class="ma-0"
+            Style="color:maroon;font-weight:bold;"
+            href="https://github.com/MudBlazor/MudBlazor"
+            target="blank"
+            rel="noopener noreferrer">
+    Twitter!
+</MudElement>
+
+@code
+{
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/personal/dashboard"),
+        new BreadcrumbItem("Faq & Help", href: "/pages/utility/faq"),
+    };
+
+}

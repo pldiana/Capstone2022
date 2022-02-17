@@ -12,5 +12,6 @@ namespace CryptoDevilAPI.DataAccess
         Task UpdateOneAsync(Exchange ExchangeInstance);
         Task DeleteOneAsync(Exchange ExchangeInstance);
         Task<List<Exchange>> GetAllExchangesAsync();
+        Task<Exchange> GetExchangeByNameAsync(string exchangeName);
     }
 }

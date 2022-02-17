@@ -63,5 +63,16 @@ namespace CryptoDevilAPI.DataAccess
         {
             return await _collection.AsQueryable().ToListAsync();
         }
+
+        public async Task<Exchange> GetExchangeByNameAsync(string exchangeName)
+        {
+            var filterId = Builders<Exchange>.Filter.Eq(x => x.Name, exchangeName);
+            var findId = (await _collection.FindAsync(filterId)).SingleOrDefault();
+            if (findId == null)
+            {
+                throw new Exception("Record not found.");
+            }
+            return findId;
+        }
     }
 }

@@ -1,0 +1,123 @@
+﻿@page "/pages/admin/exchangemanagement"
+@using Models
+
+<MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+
+<MudButton Link="@($"/pages/admin/exchangeadd")"
+            Target="_self"
+            Variant="Variant.Filled"
+            StartIcon="@Icons.Material.Filled.Add"
+            Color="Color.Primary">
+    Add
+</MudButton>
+<br />
+<br />
+
+<MudTable Items="@_exchanges">
+    <HeaderContent>
+        <MudTh>Enable/Disable</MudTh>
+        <MudTh>Exchange Name</MudTh>
+        @*<MudTh>Active</MudTh>*@
+        <MudTh>Strategies</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            @*<MudButton Link="@($"/pages/admin/exchangeedit/{context.Name}")"
+                       Target="_self"
+                       Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Edit"
+                       Color="Color.Primary">
+                Edit
+            </MudButton>
+            <br />
+            <br />*@
+            <MudSwitch Color="Color.Primary" @bind-Checked=@(context.IsActive) Label="Disable" />
+        </MudTd>
+        <MudTd>@context.Name</MudTd>
+        @*<MudTd>@context.IsActive</MudTd>*@
+        <MudTd>
+            <MudTable Items="@context.AvailableStrategies" Context="StrategyContext">
+                <HeaderContent>
+                    <MudTh>Enable/Disable</MudTh>
+                    <MudTh>Name</MudTh>
+                    @*<MudTh>Active</MudTh>*@
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>
+                        @*<MudButton Link="@($"/pages/admin/exchangestrategyedit/{context.Name}/{StrategyContext.Name}")"
+                                   Target="_self"
+                                   Variant="Variant.Filled"
+                                   StartIcon="@Icons.Material.Filled.Edit"
+                                   Color="Color.Primary">
+                            Edit
+                        </MudButton>
+                        <br />
+                        <br />*@
+                        <MudSwitch Color="Color.Primary" @bind-Checked=@(StrategyContext.IsActive) Label="Disable" />
+                    </MudTd>
+                    <MudTd>@StrategyContext.Name</MudTd>
+                    @*<MudTd>@StrategyContext.IsActive</MudTd>*@
+                </RowTemplate>
+            </MudTable>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/personal/dashboard"),
+        new BreadcrumbItem("Exchange Management", href: "/pages/admin/exchangemanagement"),
+    };
+
+    private IEnumerable<Exchange> _exchanges = new List<Exchange>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var _httpClient = new HttpClient();
+        _httpClient.BaseAddress = new Uri("https://localhost:5001/admin/exchange");
+
+        _exchanges = await _httpClient.GetFromJsonAsync<List<Exchange>>("");
+
+        //_exchanges = new List<Exchange>()
+        //{
+        //    new Exchange()
+        //    {
+        //        Name = "TestExchange1",
+        //        IsActive = true,
+        //        AvailableStrategies = new List<Strategy>()
+        //        {
+        //            new Strategy()
+        //            {
+        //                IsActive = true,
+        //                Name = "TestStrategy1",
+        //            },
+        //            new Strategy()
+        //            {
+        //                IsActive = true,
+        //                Name = "TestStrategy2",
+        //            }
+        //        }
+        //    },
+        //    new Exchange()
+        //    {
+        //        Name = "TestExchange2",
+        //        IsActive = false,
+        //        AvailableStrategies = new List<Strategy>()
+        //        {
+        //            new Strategy()
+        //            {
+        //                IsActive = true,
+        //                Name = "TestStrategy1",
+        //            },
+        //            new Strategy()
+        //            {
+        //                IsActive = true,
+        //                Name = "TestStrategy2",
+        //            }
+        //        }
+        //    }
+        //};
+    }
+}
