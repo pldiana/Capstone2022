@@ -1,0 +1,66 @@
+﻿@page "/pages/admin/strategyadd/{exchangename}"
+@using Models
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager NavManager
+
+<EditForm Model="@StrategyItem">
+<DataAnnotationsValidator/>
+<MudGrid>
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Exchange Name"
+                              @bind-Value="ExchangeName" ReadOnly = "true"/>
+                <MudTextField Label="Strategy Name"
+                              @bind-Value="StrategyItem.Name"/>
+                <br />
+                <MudSwitch Color="Color.Primary" @bind-Checked=@(StrategyItem.IsActive) Label="@(StrategyItem.IsActive.HasValue && StrategyItem.IsActive.Value ? "Enabled" : "Disabled")" />
+            </MudCardContent>
+            <MudCardActions>
+                @*NEW*@
+                <MudButton ButtonType="ButtonType.Submit" @onclick="@OnSubmitStrategy" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Submit
+
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+</EditForm>
+@code {
+
+    public Strategy StrategyItem { get; set; } = new Strategy();
+
+    public Exchange ExchangeItem { get; set; } = new Exchange();
+
+    [Parameter]
+    public string ExchangeName { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var _httpClient = new HttpClient();
+        _httpClient.BaseAddress = new Uri($"https://localhost:5001/admin/exchange/{ExchangeName}");
+
+        //var result = await _httpClient.GetFromJsonAsync<Exchange>($"/{ExchangeName}");
+        var result = await _httpClient.GetFromJsonAsync<Exchange>("");
+        ExchangeItem = result;
+    }
+
+    //NEW
+    protected void OnSubmitStrategy (MouseEventArgs mouseEventArgs)
+    {
+        var _httpClient = new HttpClient();
+        _httpClient.BaseAddress = new Uri("https://localhost:5001/admin/exchange");
+
+        if (ExchangeItem.AvailableStrategies == null)
+        {
+            ExchangeItem.AvailableStrategies = new List<Strategy>();
+        }
+        ExchangeItem.AvailableStrategies.Add(StrategyItem);
+
+        _httpClient.PutAsJsonAsync<Exchange>("", ExchangeItem).GetAwaiter().GetResult();
+
+        NavManager.NavigateTo("/pages/admin/exchangemanagement");
+
+    }
+
+}
