@@ -13,14 +13,13 @@
                               @bind-Value="ExchangeItem.Name"/>
                 <br />
                 <MudSwitch Color="Color.Primary" @bind-Checked=@(ExchangeItem.IsActive) Label="@(ExchangeItem.IsActive.HasValue && ExchangeItem.IsActive.Value ? "Enabled" : "Disabled")" />
+                <br />
+                <br />
+                <MudButton ButtonType="ButtonType.Submit" @onclick="@OnSubmitExchange" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Submit</MudButton>
             </MudCardContent>
-            <MudCardActions>
-                @*NEW*@
-                <MudButton ButtonType="ButtonType.Submit" @onclick="@OnSubmitExchange" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Submit
-
-                </MudButton>
-            </MudCardActions>
         </MudCard>
+        <br />
+        <MudButton ButtonType="ButtonType.Button" @onclick="@OnCancel" Variant="Variant.Filled" Color="Color.Dark" Class="ml-auto">Cancel</MudButton>
     </MudItem>
 </MudGrid>
 </EditForm>
@@ -43,9 +42,9 @@
         NavManager.NavigateTo("/pages/admin/exchangemanagement");
     }
 
-    protected void OnSwitch (MouseEventArgs mouseEventArgs)
+    protected void OnCancel (MouseEventArgs mouseEventArgs)
     {
-        
+        NavManager.NavigateTo("/pages/admin/exchangemanagement");
     }
 
 }
