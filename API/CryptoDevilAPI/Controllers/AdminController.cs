@@ -1,4 +1,5 @@
 using CryptoDevilAPI.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Models;
@@ -44,6 +45,7 @@ namespace CryptoDevilAPI.API.Controllers
 
         [HttpPost]
         //[Authorize]
+        //[Authorize(Policy = "AddExchange")]
         [Route("exchange")]
         public async Task<ActionResult> InsertExchange(Exchange exchange)
         {
@@ -53,6 +55,7 @@ namespace CryptoDevilAPI.API.Controllers
 
         [HttpPut]
         //[Authorize]
+        //[Authorize(Policy = "EditExchange")]
         [Route("exchange")]
         public async Task<ActionResult> UpdateExchange(Exchange exchange)
         {
@@ -62,6 +65,7 @@ namespace CryptoDevilAPI.API.Controllers
 
         [HttpDelete]
         //[Authorize]
+        //[Authorize(Policy = "DeleteExchange")]
         [Route("exchange")]
         public async Task<ActionResult> DeleteExchange(Exchange exchange)
         {

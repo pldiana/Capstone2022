@@ -1,11 +1,18 @@
 ﻿@page "/pages/admin/usermanagement"
 @using Models
 
-<MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+<AuthorizeView>
+    <Authorized>
+        <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+    </Authorized>
+    <NotAuthorized>
+        <MudText>Sorry, you do not have permission to view this page.</MudText>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
 
-     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
     {
         new BreadcrumbItem("Home", href: "/personal/dashboard"),
         new BreadcrumbItem("User Management", href: "/pages/admin/usermanagement"),

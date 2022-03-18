@@ -3,24 +3,32 @@
 @using System.ComponentModel.DataAnnotations
 
 
-<EditForm Model="@ExchangeItem">
-<DataAnnotationsValidator/>
-<MudGrid>
-    <MudItem xs="12" sm="7">
-        <MudCard>
-            <MudCardContent>
-                <MudTextField Label="Exchange Name"
-                              @bind-Value="ExchangeItem.Name"/>
-                <MudTextField Label="Is Active" Class="mt-3"
-                              @bind-Value="ExchangeItem.IsActive"/>
-            </MudCardContent>
-            <MudCardActions>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
-            </MudCardActions>
-        </MudCard>
-    </MudItem>
-</MudGrid>
-</EditForm>
+<AuthorizeView>
+    <Authorized>
+        <EditForm Context="Item" Model="@ExchangeItem">
+            <DataAnnotationsValidator />
+            <MudGrid>
+                <MudItem xs="12" sm="7">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudTextField Label="Exchange Name"
+                                          @bind-Value="ExchangeItem.Name" />
+                            <MudTextField Label="Is Active" Class="mt-3"
+                                          @bind-Value="ExchangeItem.IsActive" />
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Authorized>
+    <NotAuthorized>
+        <MudText>Sorry, you do not have permission to view this page.</MudText>
+    </NotAuthorized>
+</AuthorizeView>
+
 @code {
 
     public Exchange ExchangeItem { get; set; } = new Exchange();

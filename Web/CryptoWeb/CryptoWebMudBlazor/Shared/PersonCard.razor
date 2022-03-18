@@ -4,7 +4,7 @@
             <MudAvatar Image="images/avatar_jonny.jpg" />
         </CardHeaderAvatar>
         <CardHeaderContent>
-            <MudText Typo="Typo.body2">Test User</MudText>
+            <MudText Typo="Typo.body2">@Name</MudText>
             @*<MudText Typo="Typo.caption">IT Consultant</MudText>*@
         </CardHeaderContent>
     </MudCardHeader>
@@ -13,4 +13,5 @@
 @code {
     [Parameter] public string Class { get; set; }
     [Parameter] public string Style { get; set; }
+    [Parameter] public string Name { get; set; }
 }

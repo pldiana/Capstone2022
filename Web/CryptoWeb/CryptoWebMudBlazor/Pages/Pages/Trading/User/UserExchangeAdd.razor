@@ -1,0 +1,98 @@
+﻿@page "/pages/trading/user/userexchangeadd"
+@using Models
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager NavManager
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+
+<AuthorizeView Context="User">
+    <Authorized>
+        <EditForm Model="@UserExchange">
+            <DataAnnotationsValidator />
+            <MudGrid>
+                <MudItem xs="12" sm="7">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudSelect @bind-Value="value" Label="Select your exchange" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" Clearable>
+                                @foreach (var exchange in ExchangeList)
+                                {
+                                    <MudSelectItem T="string" Value="@exchange">@exchange</MudSelectItem>
+                                }
+                            </MudSelect>
+                            <MudTextField Label="Account Name"
+                                @bind-Value="ExchangeInstance.AccountName" />
+                                <br />
+                            @*<MudSwitch Color="Color.Primary" @bind-Checked=@(ExchangeItem.IsActive) Label="@(ExchangeItem.IsActive.HasValue && ExchangeItem.IsActive.Value ? "Enabled" : "Disabled")" />@**@
+                            <MudTextField Label="Key"
+                                @bind-Value="ExchangeInstance.Key" />
+                                <br />
+                            <MudTextField Label="Signature"
+                                @bind-Value="ExchangeInstance.Signature" />
+                                <br />
+                            <MudTextField Label="Phrase"
+                                @bind-Value="ExchangeInstance.Phrase" />
+                                <br />
+                            <MudSwitch Color="Color.Primary" @bind-Checked=@(ExchangeInstance.IsSandbox) Label="@(ExchangeInstance.IsSandbox.HasValue && ExchangeInstance.IsSandbox.Value ? "Sandbox" : "Not Sandbox")" />
+                            <MudButton ButtonType="ButtonType.Submit" @onclick="@OnSubmitExchange" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Submit</MudButton>
+                        </MudCardContent>
+                    </MudCard>
+                    <br />
+                    <MudButton ButtonType="ButtonType.Button" @onclick="@OnCancel" Variant="Variant.Filled" Color="Color.Dark" Class="ml-auto">Cancel</MudButton>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Authorized>
+    <NotAuthorized>
+        <MudText>Sorry, you do not have permission to view this page.</MudText>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    private string value { get; set; } = "Nothing selected";
+    public List<string> ExchangeList { get; set; } = new List<string>();
+    public UserExchange UserExchange { get; set; } = new UserExchange();
+    public ExchangeInstance ExchangeInstance { get; set; } = new ExchangeInstance();
+
+    protected async override Task OnInitializedAsync()
+    {
+        ExchangeList.Add("Coinbase");
+
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+
+        var user = authState.User;
+        var email = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
+        var _httpClient = new HttpClient();
+
+        _httpClient.BaseAddress = new Uri($"https://localhost:5001/user/{email.Value}/exchange");
+        UserExchange = await _httpClient.GetFromJsonAsync<UserExchange>("");
+    }
+
+    protected void OnSubmitExchange(MouseEventArgs mouseEventArgs)
+    {
+        var _httpClient = new HttpClient();
+        _httpClient.BaseAddress = new Uri("https://localhost:5001/user/exchange");
+
+        if (UserExchange.ExchangeList == null)
+        {
+            UserExchange.ExchangeList = new List<ExchangeInstance>();
+        }
+        ExchangeInstance.Exchange = new Exchange()
+        {
+            Name = "Coinbase"
+        };
+
+        ExchangeInstance.IsActive = false;
+
+        UserExchange.ExchangeList.Add(ExchangeInstance);
+
+        _httpClient.PutAsJsonAsync<UserExchange>("", UserExchange).GetAwaiter().GetResult();
+
+        NavManager.NavigateTo("/pages/trading/user/exchangemanagement");
+    }
+
+    protected void OnCancel(MouseEventArgs mouseEventArgs)
+    {
+        NavManager.NavigateTo("/pages/trading/user/exchangemanagement");
+    }
+
+}

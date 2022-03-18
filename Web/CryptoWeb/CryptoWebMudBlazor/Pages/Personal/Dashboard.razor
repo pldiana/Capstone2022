@@ -1,13 +1,17 @@
 ﻿@page "/personal/dashboard"
+@page "/"
+@page "/pages/authentication/login"
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@using Models;
 
 <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
 <MudGrid>
     <MudItem xs="12" sm="6" md="3">
         <MudPaper  Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
-            <MudIcon Icon="@Icons.Material.Filled.Euro" Color="Color.Primary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+            <MudIcon Icon="@Icons.Material.Filled.Money" Color="Color.Primary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
-                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total Cost</MudText>
-                <MudText Typo="Typo.h5">3,125,000</MudText>
+                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Portfolio Amount</MudText>
+                <MudText Typo="Typo.h5">@PortfolioAmount.ToString("C2")</MudText>
             </div>
         </MudPaper>
     </MudItem>
@@ -153,6 +157,8 @@ Visit our
 
 @code {
 
+    decimal PortfolioAmount = 0.0m;
+
     EarningReport[] earningReports = new EarningReport[]
     {
         new EarningReport { Name = "Lunees", Title = "Reactor Engineer", Avatar = "https://avatars2.githubusercontent.com/u/71094850?s=460&u=66c16f5bb7d27dc751f6759a82a3a070c8c7fe4b&v=4", Salary = "$0.99", Severity = Color.Success, SeverityTitle = "Low"},
@@ -168,6 +174,39 @@ Visit our
         public Color Severity;
         public string SeverityTitle;
         public string Salary;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var _httpClient = new HttpClient();
+        Dictionary<string, object> userData = null;
+
+        var emailClaim = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
+
+        if (emailClaim != null)
+        {
+            var email = emailClaim.Value;
+            string uriString = $"https://localhost:5001/user/{email}/data";
+            _httpClient.BaseAddress = new Uri(uriString);
+            try
+            {
+                userData = await _httpClient.GetFromJsonAsync<Dictionary<string, object>>("");
+            }
+            catch
+            {
+            }
+        }
+
+        if (userData != null)
+        {
+            if (userData.ContainsKey("PortfolioAmount"))
+            {
+                decimal.TryParse(userData["PortfolioAmount"].ToString(), out PortfolioAmount);
+            }
+        }
+
     }
 
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>

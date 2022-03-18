@@ -44,7 +44,24 @@ namespace CryptoDevilAPI
             ExchangeDA exchangeDA = new ExchangeDA(exchangeCollection);
             UserExchangeDA userExchangeDA = new UserExchangeDA(userExchangeCollection);
             services.AddSingleton<IExchangeDA>(exchangeDA);
+            services.AddSingleton<IUserExchangeDA>(userExchangeDA);
+            services.AddScoped<IUserExchangeRepository, UserExchangeRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IUserDataRepository, UserDataRepository>();
+
+            services.AddAuthorization(options =>
+            {
+                //options.AddPolicy("AddExchange", policy =>
+                //                  policy.RequireClaim("permissions", "add:exchange"));
+                //options.AddPolicy("EditExchange", policy =>
+                //                  policy.RequireClaim("permissions", "edit:exchange"));
+                ////options.AddPolicy("AddStrategy", policy =>
+                ////                  policy.RequireClaim("permissions", "add:strategy"));
+                ////options.AddPolicy("EditStrategy", policy =>
+                ////                  policy.RequireClaim("permissions", "edit:strategy"));
+                //options.AddPolicy("DeleteExchange", policy =>
+                //                  policy.RequireClaim("permissions", "delete:exchange"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

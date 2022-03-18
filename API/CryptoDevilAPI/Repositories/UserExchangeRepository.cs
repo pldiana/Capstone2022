@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using CryptoDevilAPI.DataAccess;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,29 +9,31 @@ namespace CryptoDevilAPI.Repositories
 {
     public class UserExchangeRepository : IUserExchangeRepository
     {
-        public UserExchangeRepository()
+        private readonly IUserExchangeDA _userExchangeDA;
+        public UserExchangeRepository(IUserExchangeDA userExchangeDA)
         {
+            _userExchangeDA = userExchangeDA;
 
         }
 
-        public Task DeleteOneAsync(UserExchange userExchangeInstance)
+        public async Task DeleteOneAsync(UserExchange userExchangeInstance)
         {
-            throw new NotImplementedException();
+            await _userExchangeDA.DeleteOneAsync(userExchangeInstance.User.Id);
         }
 
-        public Task<UserExchange> GetOneAsync(string userId)
+        public async Task<UserExchange> GetOneAsync(string userId)
         {
-            throw new NotImplementedException();
+           return await _userExchangeDA.GetOneAsync(userId);
         }
 
-        public Task InsertOneAsync(UserExchange userExchangeInstance)
+        public async Task InsertOneAsync(UserExchange userExchangeInstance)
         {
-            throw new NotImplementedException();
+            await _userExchangeDA.InsertOneAsync(userExchangeInstance);
         }
 
-        public Task UpdateOneAsync(UserExchange userExchangeInstance)
+        public async Task UpdateOneAsync(UserExchange userExchangeInstance)
         {
-            throw new NotImplementedException();
+            await _userExchangeDA.UpdateOneAsync(userExchangeInstance);
         }
     }
 }

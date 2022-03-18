@@ -3,26 +3,34 @@
 @using System.ComponentModel.DataAnnotations
 @inject NavigationManager NavManager
 
-<EditForm Model="@ExchangeItem">
-<DataAnnotationsValidator/>
-<MudGrid>
-    <MudItem xs="12" sm="7">
-        <MudCard>
-            <MudCardContent>
-                <MudTextField Label="Exchange Name"
-                              @bind-Value="ExchangeItem.Name"/>
-                <br />
-                <MudSwitch Color="Color.Primary" @bind-Checked=@(ExchangeItem.IsActive) Label="@(ExchangeItem.IsActive.HasValue && ExchangeItem.IsActive.Value ? "Enabled" : "Disabled")" />
-                <br />
-                <br />
-                <MudButton ButtonType="ButtonType.Submit" @onclick="@OnSubmitExchange" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Submit</MudButton>
-            </MudCardContent>
-        </MudCard>
-        <br />
-        <MudButton ButtonType="ButtonType.Button" @onclick="@OnCancel" Variant="Variant.Filled" Color="Color.Dark" Class="ml-auto">Cancel</MudButton>
-    </MudItem>
-</MudGrid>
-</EditForm>
+<AuthorizeView>
+    <Authorized>
+        <EditForm Context="Item" Model="@ExchangeItem">
+            <DataAnnotationsValidator />
+            <MudGrid>
+                <MudItem xs="12" sm="7">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudTextField Label="Exchange Name"
+                                          @bind-Value="ExchangeItem.Name" />
+                            <br />
+                            <MudSwitch Color="Color.Primary" @bind-Checked=@(ExchangeItem.IsActive) Label="@(ExchangeItem.IsActive.HasValue && ExchangeItem.IsActive.Value ? "Enabled" : "Disabled")" />
+                            <br />
+                            <br />
+                            <MudButton ButtonType="ButtonType.Submit" @onclick="@OnSubmitExchange" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Submit</MudButton>
+                        </MudCardContent>
+                    </MudCard>
+                    <br />
+                    <MudButton ButtonType="ButtonType.Button" @onclick="@OnCancel" Variant="Variant.Filled" Color="Color.Dark" Class="ml-auto">Cancel</MudButton>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Authorized>
+    <NotAuthorized>
+        <MudText>Sorry, you do not have permission to view this page.</MudText>
+    </NotAuthorized>
+</AuthorizeView>
+
 @code {
 
     public Exchange ExchangeItem { get; set; } = new Exchange();
@@ -32,17 +40,17 @@
     }
 
     //NEW
-    protected void OnSubmitExchange (MouseEventArgs mouseEventArgs)
+    protected void OnSubmitExchange(MouseEventArgs mouseEventArgs)
     {
         var _httpClient = new HttpClient();
         _httpClient.BaseAddress = new Uri("https://localhost:5001/admin/exchange");
 
-        _httpClient.PostAsJsonAsync<Exchange>("", ExchangeItem).GetAwaiter().GetResult();          
+        _httpClient.PostAsJsonAsync<Exchange>("", ExchangeItem).GetAwaiter().GetResult();
 
         NavManager.NavigateTo("/pages/admin/exchangemanagement");
     }
 
-    protected void OnCancel (MouseEventArgs mouseEventArgs)
+    protected void OnCancel(MouseEventArgs mouseEventArgs)
     {
         NavManager.NavigateTo("/pages/admin/exchangemanagement");
     }

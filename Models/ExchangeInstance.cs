@@ -14,6 +14,7 @@ namespace Models
         public decimal? ExchangeLiquidationPercentage { get; set; }
         public List<StrategyInstance> StrategyList { get; set; }
         public bool? IsActive { get; set; }
+        public bool? IsSandbox { get; set; }
 
     }
 }
