@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{C2792E6F-9DE3-4B7A-AB27-15B9B35E79CD}"
-	ProjectSection(SolutionItems) = preProject
-		API\CryptoDevilAPI\.gitignore = API\CryptoDevilAPI\.gitignore
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{2DCD0C65-24AE-41CB-9D61-8FB3DD9A4BE1}"
 EndProject
