@@ -7,8 +7,8 @@
 <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
 <MudGrid>
     <MudItem xs="12" sm="6" md="3">
-        <MudPaper  Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
-            <MudIcon Icon="@Icons.Material.Filled.Money" Color="Color.Primary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+        <MudPaper Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+            <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Color="Color.Primary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
                 <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Portfolio Amount</MudText>
                 <MudText Typo="Typo.h5">@PortfolioAmount.ToString("C2")</MudText>
@@ -16,73 +16,82 @@
         </MudPaper>
     </MudItem>
     <MudItem xs="12" sm="6" md="3">
-        <MudPaper  Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
-            <MudIcon Icon="@Icons.Material.Filled.Layers" Color="Color.Secondary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+        <MudPaper Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+            <MudIcon Icon="@Icons.Material.Filled.PriceChange" Color="Color.Secondary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
-                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Graphite on roof</MudText>
-                <MudText Typo="Typo.h5">150,000</MudText>
+                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Current Exchange Rate</MudText>
+                <MudText Typo="Typo.h5">$43,804.01</MudText>
             </div>
         </MudPaper>
     </MudItem>
     <MudItem xs="12" sm="6" md="3">
-        <MudPaper  Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
-            <MudIcon Icon="@Icons.Material.Filled.Public" Color="Color.Success" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+        <MudPaper Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+            <MudIcon Icon="@Icons.Material.Filled.SentimentNeutral" Color="Color.Success" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
-                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Global Spread</MudText>
-                <MudText Typo="Typo.h5">12%</MudText>
+                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Market Sentiment</MudText>
+                @*<MudText Typo="Typo.h5"><MudIcon Icon="@Icons.Material.Filled.SentimentNeutral" Color="Color.Success" Class="mx-4" Style="width:54px; height:54px;"></MudIcon></MudText>*@
             </div>
         </MudPaper>
     </MudItem>
     <MudItem xs="12" sm="6" md="3">
-        <MudPaper  Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
-            <MudIcon Icon="@Icons.Custom.Uncategorized.Radioactive" Color="Color.Warning" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
+        <MudPaper Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
+            <MudIcon Icon="@Icons.Filled.Calculate" Color="Color.Warning" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
-                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Roentgen</MudText>
-                <MudText Typo="Typo.h5">3,6</MudText>
+                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Rate Of Return</MudText>
+                <MudText Typo="Typo.h5">17%</MudText>
             </div>
         </MudPaper>
     </MudItem>
-    <MudItem xs="12" sm="8">
-        <MudPaper  Class="pa-4" Style="height:300px;">
-            Charts comming soon ish...
+    <MudItem xs="12">
+        @*took out "sm="8" -> K Dietz*@
+        <MudPaper Class="pa-4" Style="height:350px;">
+            <div>
+                <MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="200px"></MudChart>
+                <MudButtonGroup Class="d-flex align-center justify-center" Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true">
+                    <MudButton>12 mos.</MudButton>
+                    <MudButton>YTD</MudButton>
+                    <MudButton>3 Yr.</MudButton>
+                </MudButtonGroup>
+            </div>
         </MudPaper>
     </MudItem>
-    <MudItem xs="12" sm="4">
-        <MudPaper  Class="pa-4" Style="height:300px;">
-            Charts comming soon ish...
+    @*Commenting out as we may not use this one -> K Dietz*@
+    @*<MudItem xs="12" sm="4">
+        <MudPaper Class="pa-4" Style="height:350px;">
+        <MudChart ChartType="ChartType.Pie" InputData="@data" @bind-SelectedIndex="Index" InputLabels="@labels" Width="100%" Height="200px"></MudChart>
         </MudPaper>
-    </MudItem>
+        </MudItem>*@
     <MudItem xs="12" sm="12" md="6">
-        <MudCard  Style="height:100%;">
+        <MudCard Style="height:100%;">
             <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText Typo="Typo.h6">Earning Report</MudText>
+                    <MudText Typo="Typo.h6">Monthly Balances</MudText>
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent Class="px-0">
                 <MudSimpleTable Elevation="0" Hover="true">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Priority</th>
-                            <th>Earnings</th>
+                            <th>Month</th>
+                            <th>End Balance</th>
+                            <th>Differential</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var report in earningReports.OrderBy(x=>x.Name))
+                        @foreach (var report in earningReports.OrderBy(x => x.EarningReportDate))
                         {
                             <tr>
                                 <td>
                                     <div class="d-flex flex-row">
-                                        <MudAvatar Image="@report.Avatar" Class="mud-elevation-25" />
+                                        @*<MudAvatar Image="@report.Avatar" Class="mud-elevation-25" />*@
                                         <div class="ml-6">
-                                            <MudText Typo="Typo.subtitle2">@report.Name</MudText>
-                                            <MudText Typo="Typo.body2">@report.Title</MudText>
+                                            <MudText Typo="Typo.subtitle2">@report.EarningReportDate.ToString("yyyy MMM")</MudText>
+                                            @*<MudText Typo="Typo.body2">@reportmonthBalance.</MudText>*@
                                         </div>
                                     </div>
                                 </td>
-                                <td><MudChip Label="true" Color="@report.Severity" Size="Size.Small" Class="ml-auto mud-elevation-25">@report.SeverityTitle</MudChip></td>
-                                <td><MudText>@report.Salary</MudText></td>
+                                <td><MudChip Label="true" Color="Color.Success" Size="Size.Small" Class="ml-auto mud-elevation-25">@report.MonthlyStartingBalance.ToString("C2")</MudChip></td>
+                                <td><MudText Color="@(report.MonthlyDifference <= 0 ? Color.Error : Color.Success)">@report.MonthlyDifference.ToString("C2")</MudText></td>
                             </tr>
                         }
                     </tbody>
@@ -91,10 +100,10 @@
         </MudCard>
     </MudItem>
     <MudItem xs="12" sm="12" md="6">
-        <MudCard  Style="height:100%;">
+        <MudCard Style="height:100%;">
             <MudCardHeader>
                 <CardHeaderContent>
-                    <MudText Typo="Typo.h6">Recent incidents</MudText>
+                    <MudText Typo="Typo.h6">In The News...</MudText>
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent Class="px-0">
@@ -102,37 +111,31 @@
                     <MudListItem>
                         <div class="d-flex flex-row">
                             <MudAvatar Class="mud-elevation-25">
-                                <MudIcon Icon="@Icons.Custom.Brands.GitHub" Class="mx-4" />
+                                <MudIcon Icon="@Icons.Filled.NewReleases" Class="mx-4" />
                             </MudAvatar>
                             <div class="ml-6">
-                                <MudText Typo="Typo.subtitle2">Issues rising</MudText>
-                                <MudText Typo="Typo.body2">Issues is almost reaching 100</MudText>
+                                <MudLink Target="blank" Href="https://news.bitcoin.com/japanese-fintech-firm-kyash-raises-41-million-jack-dorseys-block-participates-in-funding/">Japanese Fintech Firm Kyash Raises $41 Million, Jack Dorsey’s Block Participates in Funding</MudLink>
                             </div>
-                            <MudChip Label="true" Color="Color.Error" Size="Size.Small" Class="ml-auto mud-elevation-25">Danger</MudChip>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex flex-row">
                             <MudAvatar Class="mud-elevation-25">
-                                <MudIcon Icon="@Icons.Custom.Uncategorized.Radioactive" Class="mx-4" />
+                                <MudIcon Icon="@Icons.Filled.NewReleases" Class="mx-4" />
                             </MudAvatar>
                             <div class="ml-6">
-                                <MudText Typo="Typo.subtitle2">Incident in plant number 4</MudText>
-                                <MudText Typo="Typo.body2">Fire in reactor core</MudText>
+                                <MudLink Target="blank" Href="https://www.cnbc.com/video/2022/03/18/its-difficult-for-russian-oligarchs-to-use-crypto-says-ftx-ceo-sam-bankman-fried.html">It’s difficult for Russian oligarchs to use crypto, says FTX CEO Sam Bankman-Fried</MudLink>
                             </div>
-                            <MudChip Label="true" Color="Color.Info" Size="Size.Small" Class="ml-auto mud-elevation-25">Minor</MudChip>
                         </div>
                     </MudListItem>
                     <MudListItem>
                         <div class="d-flex flex-row">
                             <MudAvatar Class="mud-elevation-25">
-                                <MudIcon Icon="@Icons.Material.Filled.Person" Class="mx-4" />
+                                <MudIcon Icon="@Icons.Filled.NewReleases" Class="mx-4" />
                             </MudAvatar>
                             <div class="ml-6">
-                                <MudText Typo="Typo.subtitle2">Occupational injury</MudText>
-                                <MudText Typo="Typo.body2">Employee broke a finger while writing some code</MudText>
+                                <MudLink Target="blank" Href="https://finance.yahoo.com/m/787023fe-e662-374c-94e5-e1204f1c5aac/how-investors-can-keep-crypto.html">How Investors Can Keep Crypto Assets Safe</MudLink>
                             </div>
-                            <MudChip Label="true" Color="Color.Success" Size="Size.Small" Class="ml-auto mud-elevation-25">Dismissed</MudChip>
                         </div>
                     </MudListItem>
                 </MudList>
@@ -155,26 +158,50 @@ Visit our
     Twitter!
 </MudElement>
 
+
 @code {
 
     decimal PortfolioAmount = 0.0m;
 
+    //class NewsFeed
+    //{
+    //    public string news_url { get; set; }
+    //    public string image_url { get; set; }
+    //}
+
     EarningReport[] earningReports = new EarningReport[]
-    {
-        new EarningReport { Name = "Lunees", Title = "Reactor Engineer", Avatar = "https://avatars2.githubusercontent.com/u/71094850?s=460&u=66c16f5bb7d27dc751f6759a82a3a070c8c7fe4b&v=4", Salary = "$0.99", Severity = Color.Success, SeverityTitle = "Low"},
-        new EarningReport { Name = "Mikes-gh", Title = "Developer", Avatar = "https://avatars.githubusercontent.com/u/16208742?s=120&v=4", Salary = "$19.12K", Severity = Color.Secondary, SeverityTitle = "Medium"},
-        new EarningReport { Name = "Garderoben", Title = "CSS Magician", Avatar = "https://avatars2.githubusercontent.com/u/10367109?s=460&amp;u=2abf95f9e01132e8e2915def42895ffe99c5d2c6&amp;v=4", Salary = "$1337", Severity = Color.Primary, SeverityTitle = "High"},
-    };
+            {
+            new EarningReport { EarningReportDate = new DateTime(2021, 12, 1), MonthlyStartingBalance = 39117.35m, MonthlyDifference = 2891.83m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 1, 1), MonthlyStartingBalance = 39000.00m, MonthlyDifference = -117.35m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 2, 1), MonthlyStartingBalance = 43366.83m, MonthlyDifference = 4366.83m},
+
+             };
 
     class EarningReport
     {
-        public string Avatar;
-        public string Name;
-        public string Title;
-        public Color Severity;
-        public string SeverityTitle;
-        public string Salary;
+        public DateTime EarningReportDate;
+        public decimal MonthlyStartingBalance;
+        public decimal MonthlyDifference;
     }
+
+    //Kevin Dietz Changes.  Creating dummy objects to populate the chart
+    private int Index = -1;
+
+    public List<ChartSeries> Series = new List<ChartSeries>()
+{
+    new ChartSeries() {Name = "Personal Account", Data = new double[] {33933.16, 32100.01, 34113.23, 34300.84, 34800.19, 34400.88, 36117.44, 37918.45, 38504.30, 39117.35, 42009.18, 43366.83}},
+    new ChartSeries() {Name = "Market Trend", Data = new double[] {31933.16, 33100.01, 33113.23, 32300.84, 35800.19, 31400.88, 33117.44, 31918.45, 34504.30, 39117.35, 40009.18, 37366.83}}
+};
+
+    //K Dietz creating Index label for chart
+    public string[] XAxisLabels = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+    //K Dietz creating Pie chart data
+
+    double[] data = { 65, 15, 12, 8 };
+    string[] labels = { "Stock Market", "Bonds", "Crypto Trading", "Other" };  //Just creates Lables
+
+    //K Dietz code for mock up data for Monthly balances
 
     protected override async Task OnInitializedAsync()
     {
