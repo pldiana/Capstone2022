@@ -1,77 +1,84 @@
 ﻿@page "/pages/admin/exchangemanagement"
 @using Models
 
-<MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+<AuthorizeView Context="User">
+    <Authorized>
+        <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
 
-<MudButton Link="@($"/pages/admin/exchangeadd")"
-            Target="_self"
-            Variant="Variant.Filled"
-            StartIcon="@Icons.Material.Filled.Add"
-            Color="Color.Primary">
-    Add Exchange
-</MudButton>
-<br />
-<br />
+        <MudButton Link="@($"/pages/admin/exchangeadd")"
+                   Target="_self"
+                   Variant="Variant.Filled"
+                   StartIcon="@Icons.Material.Filled.Add"
+                   Color="Color.Primary">
+            Add Exchange
+        </MudButton>
+        <br />
+        <br />
 
-<MudTable Items="@_exchanges">
-    <HeaderContent>
-        <MudTh>Enable/Disable</MudTh>
-        <MudTh>Exchange Name</MudTh>
-        @*<MudTh>Active</MudTh>*@
-        <MudTh>Strategies</MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd>            
-            @*<MudButton Link="@($"/pages/admin/exchangeedit/{context.Name}")"
-                       Target="_self"
-                       Variant="Variant.Filled"
-                       StartIcon="@Icons.Material.Filled.Edit"
-                       Color="Color.Primary">
-                Edit
-            </MudButton>
-            <br />
-            <br />*@
-            <MudSwitch Color="Color.Primary" @bind-Checked=@(context.IsActive) Label="@(context.IsActive.HasValue && context.IsActive.Value ? "Enabled" : "Disabled")" />
-        </MudTd>
-        <MudTd>@context.Name</MudTd>
-        @*<MudTd>@context.IsActive</MudTd>*@
-        <MudTd>
-            @*NEW*@
-            <MudButton Link="@($"/pages/admin/strategyadd/{context.Name}")"
-                Target="_self"
-                Variant="Variant.Filled"
-                StartIcon="@Icons.Material.Filled.Add"
-                Color="Color.Primary">
-                Add Strategy
-            </MudButton>
-            <br />
-            <br />
-            <MudTable Items="@context.AvailableStrategies" Context="StrategyContext">
-                <HeaderContent>
-                    <MudTh>Enable/Disable</MudTh>
-                    <MudTh>Name</MudTh>
-                    @*<MudTh>Active</MudTh>*@
-                </HeaderContent>
-                <RowTemplate>
-                    <MudTd>
-                        @*<MudButton Link="@($"/pages/admin/exchangestrategyedit/{context.Name}/{StrategyContext.Name}")"
-                                   Target="_self"
-                                   Variant="Variant.Filled"
-                                   StartIcon="@Icons.Material.Filled.Edit"
-                                   Color="Color.Primary">
-                            Edit
+        <MudTable Items="@_exchanges">
+            <HeaderContent>
+                <MudTh>Enable/Disable</MudTh>
+                <MudTh>Exchange Name</MudTh>
+                @*<MudTh>Active</MudTh>*@
+                <MudTh>Strategies</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>
+                    @*<MudButton Link="@($"/pages/admin/exchangeedit/{context.Name}")"
+                        Target="_self"
+                        Variant="Variant.Filled"
+                        StartIcon="@Icons.Material.Filled.Edit"
+                        Color="Color.Primary">
+                        Edit
                         </MudButton>
                         <br />
                         <br />*@
-                        <MudSwitch Color="Color.Primary" @bind-Checked=@(StrategyContext.IsActive) Label="@(StrategyContext.IsActive.HasValue && StrategyContext.IsActive.Value ? "Enabled" : "Disabled")" />
-                    </MudTd>
-                    <MudTd>@StrategyContext.Name</MudTd>
-                    @*<MudTd>@StrategyContext.IsActive</MudTd>*@
-                </RowTemplate>
-            </MudTable>
-        </MudTd>
-    </RowTemplate>
-</MudTable>
+                    <MudSwitch Color="Color.Primary" @bind-Checked=@(context.IsActive) Label="@(context.IsActive.HasValue && context.IsActive.Value ? "Enabled" : "Disabled")" />
+                </MudTd>
+                <MudTd>@context.Name</MudTd>
+                @*<MudTd>@context.IsActive</MudTd>*@
+                <MudTd>
+                    @*NEW*@
+                    <MudButton Link="@($"/pages/admin/strategyadd/{context.Name}")"
+                               Target="_self"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.Add"
+                               Color="Color.Primary">
+                        Add Strategy
+                    </MudButton>
+                    <br />
+                    <br />
+                    <MudTable Items="@context.AvailableStrategies" Context="StrategyContext">
+                        <HeaderContent>
+                            <MudTh>Enable/Disable</MudTh>
+                            <MudTh>Name</MudTh>
+                            @*<MudTh>Active</MudTh>*@
+                        </HeaderContent>
+                        <RowTemplate>
+                            <MudTd>
+                                @*<MudButton Link="@($"/pages/admin/exchangestrategyedit/{context.Name}/{StrategyContext.Name}")"
+                                    Target="_self"
+                                    Variant="Variant.Filled"
+                                    StartIcon="@Icons.Material.Filled.Edit"
+                                    Color="Color.Primary">
+                                    Edit
+                                    </MudButton>
+                                    <br />
+                                    <br />*@
+                                <MudSwitch Color="Color.Primary" @bind-Checked=@(StrategyContext.IsActive) Label="@(StrategyContext.IsActive.HasValue && StrategyContext.IsActive.Value ? "Enabled" : "Disabled")" />
+                            </MudTd>
+                            <MudTd>@StrategyContext.Name</MudTd>
+                            @*<MudTd>@StrategyContext.IsActive</MudTd>*@
+                        </RowTemplate>
+                    </MudTable>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    </Authorized>
+    <NotAuthorized>
+        <MudText>Sorry, you do not have permission to view this page.</MudText>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
 

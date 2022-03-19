@@ -12,7 +12,7 @@ namespace CryptoDevilAPI.API.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("userexchange")]
+    [Route("user")]
     public class UserExchangeController : ControllerBase
     {
         private readonly ILogger<UserExchangeController> _logger;
@@ -26,7 +26,7 @@ namespace CryptoDevilAPI.API.Controllers
 
         [HttpGet]
         //[Authorize]
-        [Route("{userId}")]
+        [Route("{userId}/exchange")]
         public async Task<ActionResult> GetUserExchangeAsync(string userId)
         {         
             var result = await _repository.GetOneAsync(userId);
@@ -35,6 +35,7 @@ namespace CryptoDevilAPI.API.Controllers
 
         [HttpPost]
         //[Authorize]
+        [Route("exchange")]
         public async Task<ActionResult> InsertUserExchangeAsync(UserExchange userExchange)
         {
             await _repository.InsertOneAsync(userExchange);
@@ -52,6 +53,7 @@ namespace CryptoDevilAPI.API.Controllers
 
         //probably not needed
         [HttpDelete]
+        [Route("exchange")]
         //[Authorize]
         public async Task<ActionResult> DeleteUserExchangeAsync(UserExchange userExchange)
         {

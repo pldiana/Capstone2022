@@ -18,7 +18,7 @@ namespace CryptoDevilAPI.DataAccess
         public async Task DeleteOneAsync(string userId)
         {
             //NEW
-            var filterId = Builders<UserExchange>.Filter.Eq(x => x.UserId, userId);
+            var filterId = Builders<UserExchange>.Filter.Eq(x => x.User.Id, userId);
             var findId = await _collection.DeleteOneAsync(filterId);
             if (findId == null)
             {
@@ -29,18 +29,18 @@ namespace CryptoDevilAPI.DataAccess
         //NEW
         public async Task<UserExchange> GetOneAsync(string userId)
         {
-            var filterId = Builders<UserExchange>.Filter.Eq(x => x.UserId, userId);
+            var filterId = Builders<UserExchange>.Filter.Eq(x => x.User.Id, userId);
             var findId = await _collection.FindAsync(filterId);
             return await findId.SingleOrDefaultAsync();
         }
 
         public async Task InsertOneAsync(UserExchange userExchangeInstance)
         {
-            if (string.IsNullOrWhiteSpace(userExchangeInstance?.UserId))
+            if (string.IsNullOrWhiteSpace(userExchangeInstance?.User.Id))
             {
                 throw new Exception("UserExchange object requires a UserId.");
             }
-            var filterId = Builders<UserExchange>.Filter.Eq(x => x.UserId, userExchangeInstance.UserId);
+            var filterId = Builders<UserExchange>.Filter.Eq(x => x.User.Id, userExchangeInstance.User.Id);
             var findId = await _collection.FindAsync(filterId);
             if (findId.ToList().Count > 0)
             {
@@ -52,11 +52,11 @@ namespace CryptoDevilAPI.DataAccess
         public async Task UpdateOneAsync(UserExchange userExchangeInstance)
         {
             //NEW
-            if (string.IsNullOrWhiteSpace(userExchangeInstance?.UserId))
+            if (string.IsNullOrWhiteSpace(userExchangeInstance?.User.Id))
             {
                 throw new Exception("User Exchange requires a UserId.");
             }
-            var filterId = Builders<UserExchange>.Filter.Eq(x => x.UserId, userExchangeInstance?.UserId);
+            var filterId = Builders<UserExchange>.Filter.Eq(x => x.User.Id, userExchangeInstance?.User.Id);
             var findId = (await _collection.FindAsync(filterId)).SingleOrDefault();
             if (findId != null)
             {

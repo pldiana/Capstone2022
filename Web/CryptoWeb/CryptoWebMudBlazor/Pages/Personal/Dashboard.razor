@@ -1,5 +1,8 @@
 ﻿@page "/personal/dashboard"
-@using System.Collections.Generic;
+@page "/"
+@page "/pages/authentication/login"
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+@using Models;
 
 <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
 <MudGrid>
@@ -7,8 +10,8 @@
         <MudPaper Class="d-flex flex-row pt-6 pb-4" Style="height:100px;">
             <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Color="Color.Primary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
-                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Total Account Value</MudText>
-                <MudText Typo="Typo.h5">13,235.18</MudText>
+                <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Portfolio Amount</MudText>
+                <MudText Typo="Typo.h5">@PortfolioAmount.ToString("C2")</MudText>
             </div>
         </MudPaper>
     </MudItem>
@@ -39,7 +42,8 @@
             </div>
         </MudPaper>
     </MudItem>
-    <MudItem xs="12"> @*took out "sm="8" -> K Dietz*@
+    <MudItem xs="12">
+        @*took out "sm="8" -> K Dietz*@
         <MudPaper Class="pa-4" Style="height:350px;">
             <div>
                 <MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="200px"></MudChart>
@@ -54,9 +58,9 @@
     @*Commenting out as we may not use this one -> K Dietz*@
     @*<MudItem xs="12" sm="4">
         <MudPaper Class="pa-4" Style="height:350px;">
-            <MudChart ChartType="ChartType.Pie" InputData="@data" @bind-SelectedIndex="Index" InputLabels="@labels" Width="100%" Height="200px"></MudChart>
+        <MudChart ChartType="ChartType.Pie" InputData="@data" @bind-SelectedIndex="Index" InputLabels="@labels" Width="100%" Height="200px"></MudChart>
         </MudPaper>
-    </MudItem>*@
+        </MudItem>*@
     <MudItem xs="12" sm="12" md="6">
         <MudCard Style="height:100%;">
             <MudCardHeader>
@@ -74,20 +78,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var report in earningReports.OrderBy(x => x.Name))
-                            {
+                        @foreach (var report in earningReports.OrderBy(x => x.EarningReportDate))
+                        {
                             <tr>
                                 <td>
                                     <div class="d-flex flex-row">
                                         @*<MudAvatar Image="@report.Avatar" Class="mud-elevation-25" />*@
                                         <div class="ml-6">
-                                            <MudText Typo="Typo.subtitle2">@report.Name</MudText>
+                                            <MudText Typo="Typo.subtitle2">@report.EarningReportDate.ToString("yyyy MMM")</MudText>
                                             @*<MudText Typo="Typo.body2">@reportmonthBalance.</MudText>*@
                                         </div>
                                     </div>
                                 </td>
-                                <td><MudChip Label="true" Color="Color.Success" Size="Size.Small" Class="ml-auto mud-elevation-25">@report.monthBalance</MudChip></td>
-                                <td><MudText>@report.monthDifference</MudText></td>
+                                <td><MudChip Label="true" Color="Color.Success" Size="Size.Small" Class="ml-auto mud-elevation-25">@report.MonthlyStartingBalance.ToString("C2")</MudChip></td>
+                                <td><MudText Color="@(report.MonthlyDifference <= 0 ? Color.Error : Color.Success)">@report.MonthlyDifference.ToString("C2")</MudText></td>
                             </tr>
                             }
                     </tbody>
@@ -154,20 +158,82 @@ Visit our
     Twitter!
 </MudElement>
 
+
 @code {
 
+    decimal PortfolioAmount = 0.0m;
+
+    //class NewsFeed
+    //{
+    //    public string news_url { get; set; }
+    //    public string image_url { get; set; }
+    //}
+
     EarningReport[] earningReports = new EarningReport[]
-        {
-            new EarningReport { Name = "February", monthBalance = "$43366.83", monthDifference = "$1357.64"},
-            new EarningReport { Name = "January", monthBalance = "$42009.18", monthDifference = "$2831.83"},
-            new EarningReport { Name = "December", monthBalance = "$39117.35", monthDifference = "$2891.83"},
-         };
+            {
+            new EarningReport { EarningReportDate = new DateTime(2021, 12, 1), MonthlyStartingBalance = 39117.35m, MonthlyDifference = 2891.83m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 1, 1), MonthlyStartingBalance = 39000.00m, MonthlyDifference = -117.35m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 2, 1), MonthlyStartingBalance = 43366.83m, MonthlyDifference = 4366.83m},
+
+             };
 
     class EarningReport
     {
-        public string Name;
-        public string monthBalance;
-        public string monthDifference;
+        public DateTime EarningReportDate;
+        public decimal MonthlyStartingBalance;
+        public decimal MonthlyDifference;
+    }
+
+    //Kevin Dietz Changes.  Creating dummy objects to populate the chart
+    private int Index = -1;
+
+    public List<ChartSeries> Series = new List<ChartSeries>()
+{
+    new ChartSeries() {Name = "Personal Account", Data = new double[] {33933.16, 32100.01, 34113.23, 34300.84, 34800.19, 34400.88, 36117.44, 37918.45, 38504.30, 39117.35, 42009.18, 43366.83}},
+    new ChartSeries() {Name = "Market Trend", Data = new double[] {31933.16, 33100.01, 33113.23, 32300.84, 35800.19, 31400.88, 33117.44, 31918.45, 34504.30, 39117.35, 40009.18, 37366.83}}
+};
+
+    //K Dietz creating Index label for chart
+    public string[] XAxisLabels = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+    //K Dietz creating Pie chart data
+
+    double[] data = { 65, 15, 12, 8 };
+    string[] labels = { "Stock Market", "Bonds", "Crypto Trading", "Other" };  //Just creates Lables
+
+    //K Dietz code for mock up data for Monthly balances
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var _httpClient = new HttpClient();
+        Dictionary<string, object> userData = null;
+
+        var emailClaim = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
+
+        if (emailClaim != null)
+        {
+            var email = emailClaim.Value;
+            string uriString = $"https://localhost:5001/user/{email}/data";
+            _httpClient.BaseAddress = new Uri(uriString);
+            try
+            {
+                userData = await _httpClient.GetFromJsonAsync<Dictionary<string, object>>("");
+            }
+            catch
+            {
+            }
+        }
+
+        if (userData != null)
+        {
+            if (userData.ContainsKey("PortfolioAmount"))
+            {
+                decimal.TryParse(userData["PortfolioAmount"].ToString(), out PortfolioAmount);
+            }
+        }
+
     }
 
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
