@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
 
 
 <MudThemeProvider Theme="_theme" />
@@ -21,30 +22,40 @@
             <MudText Typo="Typo.subtitle2">CryptoDevil</MudText>
         </MudHidden>
         <MudSpacer />
-            @*Doesnt seem to like images here except for avatar images.*@
-            @*<MudAvatar Image="images/capstone_logo.jpg" />*@
-            @*<MudImage Src="images/capstone_logo.jpg" /> *@     
+        @*Doesnt seem to like images here except for avatar images.*@
+        @*<MudAvatar Image="images/capstone_logo.jpg" />*@
+        @*<MudImage Src="images/capstone_logo.jpg" /> *@
         <MudSpacer />
-@*        <MudMenu Icon="@Icons.Material.Outlined.Translate" Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true">
+        @*        <MudMenu Icon="@Icons.Material.Outlined.Translate" Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true">
             <MudMenuItem>English</MudMenuItem>
             <MudMenuItem>Swedish</MudMenuItem>
             <MudMenuItem>Old Norse</MudMenuItem>
-        </MudMenu>*@
-@*        <MudMenu Icon="@Icons.Material.Outlined.Widgets" Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true">
+            </MudMenu>*@
+        @*        <MudMenu Icon="@Icons.Material.Outlined.Widgets" Color="Color.Inherit" Direction="Direction.Bottom" OffsetY="true" Dense="true">
             <MudMenuItem Link="https://mudblazor.com/">MudBlazor</MudMenuItem>
             <MudMenuItem Link="https://github.com/Garderoben/CryptoWebMudBlazors">Source Code</MudMenuItem>
-        </MudMenu>*@
-        <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4">
-            <ActivatorContent>
-                <MudAvatar Image="images/avatar_jonny.jpg" />
-            </ActivatorContent>
-            <ChildContent>
-                <PersonCard Class="mt-n2" />
-                <MudDivider Class="mb-2" />
-                <MudListItem Text="Account" Icon="@Icons.Material.Outlined.Person" Href="/personal/account" />
-                <MudListItem Text="Logout" Icon="@Icons.Material.Outlined.Login" Href="/pages/authentication/login" />
-            </ChildContent>
-        </MudMenu>
+            </MudMenu>*@
+        <AuthorizeView>
+            <Authorized>
+                <MudMenu Direction="Direction.Left" OffsetX="true" Dense="true" Class="mt-1 ml-4">
+                    <ActivatorContent>
+                        <MudAvatar Image="images/avatar_jonny.jpg" />
+                    </ActivatorContent>
+                    <ChildContent>
+                        <PersonCard Class="mt-n2" Name=@context.User.Identity.Name />
+                        <MudDivider Class="mb-2" />
+                        <MudListItem Text="Account" Icon="@Icons.Material.Outlined.Person" Href="/personal/account" />
+                        <form method="post" action="Account/LogOut">
+                            @*<MudListItem Text="Logout" Icon="@Icons.Material.Outlined.Login" Href="/Account/Logout" />*@     
+                            <MudButton ButtonType="ButtonType.Submit">Logout</MudButton>
+                        </form>
+                    </ChildContent>
+                </MudMenu>
+            </Authorized>
+            <NotAuthorized>
+                <MudLink Href="/Account/Login">Login</MudLink>
+            </NotAuthorized>
+        </AuthorizeView>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="25" ClipMode="DrawerClipMode.Always">
         <NavMenu />
@@ -55,8 +66,8 @@
                 <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" OnClick="@((e) => DrawerToggle())" Class="ml-3" />
                 @*<MudBreadcrumbs Items="_items"></MudBreadcrumbs>*@
                 <MudSpacer />
-@*                <MudButton Variant="Variant.Text" Link="https://mudblazor.com/" Style="color:#594AE2;">MudBlazor</MudButton>
-                <MudButton Variant="Variant.Text" Link="https://github.com/Garderoben/CryptoWebMudBlazors" Style="color:#424242;" Class="mr-3">Source Code</MudButton>*@
+                @*                <MudButton Variant="Variant.Text" Link="https://mudblazor.com/" Style="color:#594AE2;">MudBlazor</MudButton>
+                    <MudButton Variant="Variant.Text" Link="https://github.com/Garderoben/CryptoWebMudBlazors" Style="color:#424242;" Class="mr-3">Source Code</MudButton>*@
             </MudToolBar>
         </MudHidden>
         <MudContainer MaxWidth="MaxWidth.False" Class="mt-4">
@@ -79,6 +90,13 @@
     protected override void OnInitialized()
     {
         StateHasChanged();
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+
+        var user = authState.User;
     }
 
     //private List<BreadcrumbItem> _items = new List<BreadcrumbItem>

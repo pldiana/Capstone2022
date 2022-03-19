@@ -1,0 +1,100 @@
+﻿@page "/pages/trading/user/exchangemanagement"
+@using Models
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+
+<AuthorizeView>
+    <Authorized>
+        <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+        <MudButton Link="@($"/pages/trading/user/userexchangeadd")"
+                   Target="_self"
+                   Variant="Variant.Filled"
+                   StartIcon="@Icons.Material.Filled.Add"
+                   Color="Color.Primary">
+            Trade With New Exchange
+        </MudButton>
+        <br />
+        <br />
+        @if (_userExchange?.ExchangeList != null)
+        {
+            <MudTable Context="Item" Items="@_userExchange.ExchangeList">
+                <HeaderContent>
+                    <MudTh></MudTh>
+                    <MudTh>Sandbox Setting</MudTh>
+                    <MudTh>Exchange Name</MudTh>
+                    <MudTh>Account Name</MudTh>
+                    <MudTh>Key</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>
+                        <MudSwitch Color="Color.Primary" @bind-Checked=@(Item.IsActive) Label="@(Item.IsActive.HasValue && Item.IsActive.Value ? "Enabled" : "Disabled")" />
+                    </MudTd>
+                    <MudTd>
+                        <MudSwitch Color="Color.Primary" @bind-Checked=@(Item.IsSandbox) Label="@(Item.IsSandbox.HasValue && Item.IsSandbox.Value ? "Sandbox" : "Not Sandbox")" />
+                    </MudTd>
+                    <MudTd>@Item.Exchange.Name</MudTd>
+                    <MudTd>@Item.AccountName</MudTd>
+                    <MudTd>@Item.Key</MudTd>
+                </RowTemplate>
+            </MudTable>
+        }
+        else
+        {
+            <MudText>You have created no exchanges.</MudText>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <MudText>Sorry, you do not have permission to view this page.</MudText>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/personal/dashboard"),
+        new BreadcrumbItem("Exchange Management", href: "/pages/trading/user/exchangemanagement"),
+    };
+
+    private UserExchange _userExchange = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var _httpClient = new HttpClient();
+
+        var emailClaim = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
+
+        if (emailClaim != null)
+        {
+            var email = emailClaim.Value;
+            string uriString = $"https://localhost:5001/user/{email}/exchange";
+            _httpClient.BaseAddress = new Uri(uriString);
+            try
+            {
+                _userExchange = await _httpClient.GetFromJsonAsync<UserExchange>("");
+            }
+            catch
+            {
+            }
+            if (_userExchange == null)
+            {
+                _userExchange = new UserExchange()
+                    {
+                        User = new User()
+                        {
+                            Id = email,
+                            Email = email
+                        }
+                    };
+                _httpClient = new HttpClient();
+
+                _httpClient.BaseAddress = new Uri($"https://localhost:5001/user/exchange");
+                _httpClient.PostAsJsonAsync<UserExchange>("", _userExchange).GetAwaiter().GetResult();
+            }
+        }
+
+
+
+    }
+}

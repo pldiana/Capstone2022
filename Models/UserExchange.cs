@@ -11,12 +11,8 @@ namespace Models
 {
     public class UserExchange
     {
-        public UserExchange()
-        {
-            
-        }
         public List<ExchangeInstance> ExchangeList { get; set; }
-        public string UserId { get; set; }
+        public User User { get; set; }
 
         [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
         public Object Id { get; set; }
