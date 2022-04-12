@@ -48,6 +48,7 @@ namespace CryptoDevilAPI
             services.AddScoped<IUserExchangeRepository, UserExchangeRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
+            services.AddScoped<IExchangeRepository, ExchangeRepository>();
 
             services.AddAuthorization(options =>
             {

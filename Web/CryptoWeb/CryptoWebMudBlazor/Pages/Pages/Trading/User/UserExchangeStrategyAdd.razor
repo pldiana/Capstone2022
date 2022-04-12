@@ -1,0 +1,223 @@
+﻿@page "/pages/trading/user/exchange/{exchangename}/strategy/add"
+@using Models
+@using System.ComponentModel.DataAnnotations
+@inject NavigationManager NavManager
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+
+<AuthorizeView>
+    <Authorized>
+        <EditForm Context="Item" Model="@StrategyInstanceItem">
+            <DataAnnotationsValidator />
+            <MudGrid>
+                <MudItem xs="12" sm="7">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudTextField Label="Exchange Name"
+                                          @bind-Value="ExchangeName" ReadOnly="true" />
+                            @*<MudTextField Label="Strategy Name"
+                                @bind-Value="StrategyInstanceItem.StrategyDetail.Name" />
+                                <br />*@
+                            <MudSelect SelectedValuesChanged="@((IEnumerable<string> strategyNameList) => OnStrategyValueChanged(strategyNameList))" @bind-Value="StrategyName" Label="Select your strategy" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" Clearable>
+                                @if (CurrentExchange?.AvailableStrategies != null)
+                                {
+                                    @foreach (var strategy in CurrentExchange.AvailableStrategies.Select(x => x.Name).ToList())
+                                    {
+                                        <MudSelectItem T="string" Value="@strategy">@strategy</MudSelectItem>
+                                    }
+                                }
+                            </MudSelect>
+                            <br />
+                            @if (_strategyValueChanged == true)
+                            {
+                                <MudSelect SelectedValuesChanged="@((IEnumerable<string> tokenList) => OnTokenValueChanged(tokenList))" @bind-Value="TokenName" Label="Select coin to trade" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" Clearable>
+                                    @foreach (var token in _tokenList.Select(x => x.Symbol).ToList())
+                                    {
+                                    <MudSelectItem T="string" Value="@token">@token</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            }
+                            else
+                            {
+                                <MudText>Please select a Strategy to continue.</MudText>
+                            }
+                            <br />
+                            @if (_tokenValueChanged == true)
+                            {
+                                <MudTextField @bind-Value="_tradeAmount" Label="Enter amount per trade">@_tradeAmount.ToString("C2")</MudTextField>
+                            }
+                            <MudSwitch Color="Color.Primary" @bind-Checked=@(StrategyInstanceItem.IsActive) Label="@(StrategyInstanceItem.IsActive.HasValue && StrategyInstanceItem.IsActive.Value ? "Enabled" : "Disabled")" />
+
+                            <br />
+                            <br />
+                            <MudButton ButtonType="ButtonType.Submit" @onclick="@OnSubmitStrategy" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Submit</MudButton>
+                        </MudCardContent>
+                    </MudCard>
+                    <br />
+                    <MudButton ButtonType="ButtonType.Button" @onclick="@OnCancel" Variant="Variant.Filled" Color="Color.Dark" Class="ml-auto">Cancel</MudButton>
+                </MudItem>
+            </MudGrid>
+        </EditForm>
+    </Authorized>
+    <NotAuthorized>
+        <MudText>Sorry, you do not have permission to view this page.</MudText>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    private bool _strategyValueChanged = false;
+    private bool _tokenValueChanged = false;
+    private decimal _tradeAmount = 0.0m;
+    private UserExchange _userExchange = null;
+    public string StrategyName { get; set; } = "Nothing selected";
+    public string TokenName { get; set; } = "Nothing selected";
+    public ExchangeInstance ExchangeInstanceItem { get; set; }
+    public StrategyInstance StrategyInstanceItem { get; set; } = new StrategyInstance();
+    public Exchange CurrentExchange { get; set; } = new Exchange();
+
+    private List<CryptoToken> _tokenList = new List<CryptoToken>()
+    {
+        new CryptoToken ()
+        {
+            Base = "USD",
+            Symbol = "ETH"
+        },
+        new CryptoToken ()
+        {
+            Base = "USD",
+            Symbol = "BTC"
+        }
+    };
+
+    [Parameter]
+    public string ExchangeName { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var _httpClient = new HttpClient();
+
+        var emailClaim = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
+
+        if (emailClaim != null)
+        {
+            var email = emailClaim.Value;
+            string uriString = $"https://localhost:5001/user/{email}/exchange";
+            _httpClient.BaseAddress = new Uri(uriString);
+            try
+            {
+                _userExchange = await _httpClient.GetFromJsonAsync<UserExchange>("");
+                if (_userExchange?.ExchangeList != null)
+                {
+                    ExchangeInstanceItem = _userExchange.ExchangeList.Where(x => x.Exchange.Name == ExchangeName).FirstOrDefault();
+                }
+            }
+            catch
+            {
+            }
+        }
+        _httpClient = new HttpClient();
+        string exchangeUriString = $"https://localhost:5001/exchanges/{ExchangeName}";
+        _httpClient.BaseAddress = new Uri(exchangeUriString);
+
+        CurrentExchange = await _httpClient.GetFromJsonAsync<Exchange>("");
+    }
+
+    protected void OnSubmitStrategy(MouseEventArgs mouseEventArgs)
+    {
+        var _httpClient = new HttpClient();
+        _httpClient.BaseAddress = new Uri("https://localhost:5001/user/exchange");
+
+
+        if (StrategyName != "Nothing selected" && TokenName != "Nothing selected" && _tradeAmount > 0m)
+        {
+            if (ExchangeInstanceItem.StrategyList == null)
+            {
+                ExchangeInstanceItem.StrategyList = new List<StrategyInstance>();
+            }
+
+            StrategyInstanceItem = _userExchange.ExchangeList
+            .Where(x => x.Exchange.Name == ExchangeName).First()
+            .StrategyList.Where(x => x.StrategyDetail.Name == StrategyName).SingleOrDefault();
+
+            if (StrategyInstanceItem == null)
+            {
+                StrategyInstanceItem = new StrategyInstance();
+                StrategyInstanceItem.StrategyDetail = new Strategy()
+                    {
+                        Name = StrategyName,
+                        IsActive = true
+                    };
+                StrategyInstanceItem.IsActive = true;
+                StrategyInstanceItem.AutoLiquidate = false;
+                StrategyInstanceItem.Tokens = new List<CryptoToken>()
+                {
+                    new CryptoToken()
+                    {
+                        Base = "USD",
+                        Symbol = TokenName,
+                        TradeAmount = _tradeAmount
+                    }
+                };
+                _userExchange.ExchangeList.Where(x => x.Exchange.Name == ExchangeName).First().StrategyList.Add(StrategyInstanceItem);
+            }
+            else
+            {
+                if (StrategyInstanceItem.Tokens == null)
+                {
+                    StrategyInstanceItem.Tokens = new List<CryptoToken>();
+                }
+                var token = StrategyInstanceItem.Tokens.Where(x => x.Symbol == TokenName).SingleOrDefault();
+                if (token != null)
+                {
+                    token.TradeAmount = _tradeAmount;
+                }
+                else
+                {
+                    StrategyInstanceItem.Tokens.Add(new CryptoToken()
+                        {
+                            Base = "USD",
+                            Symbol = TokenName,
+                            TradeAmount = _tradeAmount
+                        });
+                }
+            }
+        }
+
+        _httpClient.PutAsJsonAsync<UserExchange>("", _userExchange).GetAwaiter().GetResult();
+
+        NavManager.NavigateTo("/pages/trading/user/exchangemanagement");
+    }
+
+    protected void OnCancel(MouseEventArgs mouseEventArgs)
+    {
+        NavManager.NavigateTo("/pages/trading/user/exchangemanagement");
+    }
+
+    protected void OnStrategyValueChanged(IEnumerable<string> strategyList)
+    {
+        if (strategyList != null && strategyList.Count() == 1 && strategyList.ToList().First() != "Nothing selected")
+        {
+            _strategyValueChanged = true;
+        }
+        else
+        {
+            _strategyValueChanged = false;
+        }
+
+    }
+
+    protected void OnTokenValueChanged(IEnumerable<string> tokenList)
+    {
+        if (tokenList != null && tokenList.Count() == 1 && tokenList.ToList().First() != "Nothing selected")
+        {
+            _tokenValueChanged = true;
+        }
+        else
+        {
+            _tokenValueChanged = false;
+        }
+
+    }
+}

@@ -16,5 +16,6 @@ namespace Models
         public Dictionary<string, object> Settings { get; set; }
         public List<CryptoToken> Tokens { get; set; }
         public Strategy StrategyDetail { get; set; }
+        public bool? IsActive { get; set; } 
     }
 }

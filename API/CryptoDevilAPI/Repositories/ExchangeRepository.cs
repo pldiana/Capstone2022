@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using CryptoDevilAPI.DataAccess;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,19 @@ namespace CryptoDevilAPI.Repositories
 {
     public class ExchangeRepository : IExchangeRepository
     {
-        public ExchangeRepository()
+        private readonly IExchangeDA _exchangeDA;
+        public ExchangeRepository(IExchangeDA exchangeDA)
         {
-
+            _exchangeDA = exchangeDA;
         }
-        public Task InsertOneAsync(Exchange exchange)
+        public async Task<List<Exchange>> GetAllExchangesAsync()
         {
-            throw new NotImplementedException();
+            return await _exchangeDA.GetAllExchangesAsync();
+        }
+
+        public async Task<Exchange> GetOneExchangeAsync(string exchangeName)
+        {
+            return await _exchangeDA.GetExchangeByNameAsync(exchangeName);
         }
     }
 }
