@@ -234,12 +234,13 @@ Visit our
             }
         }
         //Kevin Dietz adding in api retrieval to populate News Links
+        Article articleResp;
         {
             var _httpClient2 = new HttpClient();
             _httpClient2.BaseAddress = new Uri("https://newsapi.org/v2/everything?q=bitcoin&sortBy=publishedAt&pageSize=5&apiKey=97857a96022042c892c7c33fc8e37f23");
-            var result = await _httpClient2.GetFromJsonAsync<Article>("");
+            articleResp = await _httpClient2.GetFromJsonAsync<Article>("");
             Console.WriteLine("Debug Output:");
-            Console.WriteLine(result.GetType());
+            Console.WriteLine(articleResp);
         }
 
     }
