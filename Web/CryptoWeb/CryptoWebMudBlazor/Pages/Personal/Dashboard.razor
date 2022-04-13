@@ -2,6 +2,7 @@
 @page "/"
 @page "/pages/authentication/login"
 @inject AuthenticationStateProvider GetAuthenticationStateAsync
+@inject IHttpClientFactory ClientFactory
 @using Models;
 
 <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
@@ -42,9 +43,9 @@
             </div>
         </MudPaper>
     </MudItem>
-    <MudItem xs="12">
+    <!--<MudItem xs="12">-->
         @*took out "sm="8" -> K Dietz*@
-        <MudPaper Class="pa-4" Style="height:350px;">
+        <!--<MudPaper Class="pa-4" Style="height:350px;">
             <div>
                 <MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="200px"></MudChart>
                 <MudButtonGroup Class="d-flex align-center justify-center" Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true">
@@ -54,7 +55,7 @@
                 </MudButtonGroup>
             </div>
         </MudPaper>
-    </MudItem>
+    </MudItem>-->
     @*Commenting out as we may not use this one -> K Dietz*@
     @*<MudItem xs="12" sm="4">
         <MudPaper Class="pa-4" Style="height:350px;">
@@ -83,17 +84,15 @@
                             <tr>
                                 <td>
                                     <div class="d-flex flex-row">
-                                        @*<MudAvatar Image="@report.Avatar" Class="mud-elevation-25" />*@
                                         <div class="ml-6">
                                             <MudText Typo="Typo.subtitle2">@report.EarningReportDate.ToString("yyyy MMM")</MudText>
-                                            @*<MudText Typo="Typo.body2">@reportmonthBalance.</MudText>*@
                                         </div>
                                     </div>
                                 </td>
                                 <td><MudChip Label="true" Color="Color.Success" Size="Size.Small" Class="ml-auto mud-elevation-25">@report.MonthlyStartingBalance.ToString("C2")</MudChip></td>
                                 <td><MudText Color="@(report.MonthlyDifference <= 0 ? Color.Error : Color.Success)">@report.MonthlyDifference.ToString("C2")</MudText></td>
                             </tr>
-                            }
+                        }
                     </tbody>
                 </MudSimpleTable>
             </MudCardContent>
@@ -108,36 +107,26 @@
             </MudCardHeader>
             <MudCardContent Class="px-0">
                 <MudList Clickable="true">
-                    <MudListItem>
-                        <div class="d-flex flex-row">
-                            <MudAvatar Class="mud-elevation-25">
-                                <MudIcon Icon="@Icons.Filled.NewReleases" Class="mx-4" />
-                            </MudAvatar>
-                            <div class="ml-6">
-                                <MudLink Target="blank" Href="https://news.bitcoin.com/japanese-fintech-firm-kyash-raises-41-million-jack-dorseys-block-participates-in-funding/">Japanese Fintech Firm Kyash Raises $41 Million, Jack Dorsey’s Block Participates in Funding</MudLink>
-                            </div>
-                        </div>
-                    </MudListItem>
-                    <MudListItem>
-                        <div class="d-flex flex-row">
-                            <MudAvatar Class="mud-elevation-25">
-                                <MudIcon Icon="@Icons.Filled.NewReleases" Class="mx-4" />
-                            </MudAvatar>
-                            <div class="ml-6">
-                                <MudLink Target="blank" Href="https://www.cnbc.com/video/2022/03/18/its-difficult-for-russian-oligarchs-to-use-crypto-says-ftx-ceo-sam-bankman-fried.html">It’s difficult for Russian oligarchs to use crypto, says FTX CEO Sam Bankman-Fried</MudLink>
-                            </div>
-                        </div>
-                    </MudListItem>
-                    <MudListItem>
-                        <div class="d-flex flex-row">
-                            <MudAvatar Class="mud-elevation-25">
-                                <MudIcon Icon="@Icons.Filled.NewReleases" Class="mx-4" />
-                            </MudAvatar>
-                            <div class="ml-6">
-                                <MudLink Target="blank" Href="https://finance.yahoo.com/m/787023fe-e662-374c-94e5-e1204f1c5aac/how-investors-can-keep-crypto.html">How Investors Can Keep Crypto Assets Safe</MudLink>
-                            </div>
-                        </div>
-                    </MudListItem>
+                    @if (articleResp is null)
+                    {
+                        <h1>Loading...</h1>
+                    }
+                    else
+                    {
+                        @foreach (var item in this.articleResp.articles)
+                        {
+                            <MudListItem>
+                                <div class="d-flex flex-row">
+                                    <MudAvatar Class="mud-elevation-25" Image=@item.urlToImage Rounded="true">
+                                        <MudIcon Icon="@Icons.Filled.NewReleases" Class="mx-4" />
+                                    </MudAvatar>
+                                    <div class="ml-6">
+                                        <MudLink Target="blank" Href=@item.url>@item.description</MudLink>
+                                    </div>
+                                </div>
+                            </MudListItem>
+                        }
+                    }
                 </MudList>
             </MudCardContent>
         </MudCard>
@@ -159,9 +148,13 @@ Visit our
 </MudElement>
 
 
+
+
+
 @code {
 
     decimal PortfolioAmount = 0.0m;
+    ArticleList articleResp; //KD -> Testing scope issue
 
     //class NewsFeed
     //{
@@ -170,7 +163,7 @@ Visit our
     //}
 
     EarningReport[] earningReports = new EarningReport[]
-            {
+{
             new EarningReport { EarningReportDate = new DateTime(2021, 12, 1), MonthlyStartingBalance = 39117.35m, MonthlyDifference = 2891.83m},
             new EarningReport { EarningReportDate = new DateTime(2022, 1, 1), MonthlyStartingBalance = 39000.00m, MonthlyDifference = -117.35m},
             new EarningReport { EarningReportDate = new DateTime(2022, 2, 1), MonthlyStartingBalance = 43366.83m, MonthlyDifference = 4366.83m},
@@ -189,9 +182,9 @@ Visit our
 
     public List<ChartSeries> Series = new List<ChartSeries>()
 {
-    new ChartSeries() {Name = "Personal Account", Data = new double[] {33933.16, 32100.01, 34113.23, 34300.84, 34800.19, 34400.88, 36117.44, 37918.45, 38504.30, 39117.35, 42009.18, 43366.83}},
-    new ChartSeries() {Name = "Market Trend", Data = new double[] {31933.16, 33100.01, 33113.23, 32300.84, 35800.19, 31400.88, 33117.44, 31918.45, 34504.30, 39117.35, 40009.18, 37366.83}}
-};
+        new ChartSeries() {Name = "Personal Account", Data = new double[] {33933.16, 32100.01, 34113.23, 34300.84, 34800.19, 34400.88, 36117.44, 37918.45, 38504.30, 39117.35, 42009.18, 43366.83}},
+        new ChartSeries() {Name = "Market Trend", Data = new double[] {31933.16, 33100.01, 33113.23, 32300.84, 35800.19, 31400.88, 33117.44, 31918.45, 34504.30, 39117.35, 40009.18, 37366.83}}
+    };
 
     //K Dietz creating Index label for chart
     public string[] XAxisLabels = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -209,6 +202,13 @@ Visit our
         var user = authState.User;
         var _httpClient = new HttpClient();
         Dictionary<string, object> userData = null;
+
+        //Kevin Dietz adding in api retrieval to populate News Links
+
+        var _httpClient2 = new HttpClient();
+        _httpClient2.BaseAddress = new Uri("https://newsapi.org/v2/everything?q=bitcoin&sortBy=publishedAt&pageSize=5&apiKey=97857a96022042c892c7c33fc8e37f23");
+        articleResp = await _httpClient2.GetFromJsonAsync<ArticleList>("");
+
 
         var emailClaim = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
 
@@ -233,18 +233,8 @@ Visit our
                 decimal.TryParse(userData["PortfolioAmount"].ToString(), out PortfolioAmount);
             }
         }
-        //Kevin Dietz adding in api retrieval to populate News Links
-        Article articleResp;
-        {
-            var _httpClient2 = new HttpClient();
-            _httpClient2.BaseAddress = new Uri("https://newsapi.org/v2/everything?q=bitcoin&sortBy=publishedAt&pageSize=5&apiKey=97857a96022042c892c7c33fc8e37f23");
-            articleResp = await _httpClient2.GetFromJsonAsync<Article>("");
-            Console.WriteLine("Debug Output:");
-            Console.WriteLine(articleResp);
-        }
 
     }
-
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
 {
     new BreadcrumbItem("Home", href: "personal/dashboard"),
