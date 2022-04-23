@@ -1,6 +1,7 @@
-﻿using Microsoft.Azure.EventHubs.Processor;
+﻿using CryptoDevilAPI.DataAccess;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,18 @@ using System.Threading.Tasks;
 
 namespace TradeProcessor
 {
-    public class Worker : BackgroundService
+    public class CryptoDevilWorker : BackgroundService
     {
-        private readonly ILogger<Worker> _logger;
+        private readonly ILogger<CryptoDevilWorker> _logger;
+        private readonly IUserExchangeDA _userExchangeDA;
+        private List<UserExchange> userExchanges;
+
+        public CryptoDevilWorker (ILogger<CryptoDevilWorker> logger, IUserExchangeDA userExchangeDA)
+        {
+            _logger = logger;
+            _userExchangeDA = userExchangeDA;
+
+        }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
@@ -36,7 +46,9 @@ namespace TradeProcessor
         }
         private async Task Run()
         {
+            var exchanges = await _userExchangeDA.GetActiveAsync();
 
+            //userExchanges = exchanges.Where(x => x.ExchangeList.Any(y => y.IsActive == true)).ToList();
         }
     }
 }

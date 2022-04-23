@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CryptoDevilAPI.DataAccess;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Models;
+using MongoDB.Driver;
 
 namespace TradeProcessor
 {
@@ -18,7 +21,12 @@ namespace TradeProcessor
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Worker>();
+                    IMongoClient client = new MongoClient("mongodb+srv://CapstoneTest2022:CryptoDevil2022@cluster0.qa0sl.mongodb.net/CryptoDevil?retryWrites=true&w=majority");
+                    IMongoDatabase database = client.GetDatabase("CryptoDevil");
+                    var userExchangeCollection = database.GetCollection<UserExchange>("UserExchange");
+                    UserExchangeDA userExchangeDA = new UserExchangeDA(userExchangeCollection);
+                    services.AddSingleton<IUserExchangeDA>(userExchangeDA);
+                    services.AddHostedService<CryptoDevilWorker>();
                 });
     }
 }

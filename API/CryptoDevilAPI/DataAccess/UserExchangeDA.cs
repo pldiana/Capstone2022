@@ -68,5 +68,14 @@ namespace CryptoDevilAPI.DataAccess
                 throw new Exception("Record not found.");
             }
         }
+
+        public async Task <List<UserExchange>> GetActiveAsync()
+        {
+            //var filterId = Builders<UserExchange>.Filter.Eq(x => x.ExchangeList.Where(y => y.IsActive == true).ToList());
+            //var findId = await _collection.FindAsync(filterId);
+            //return await findId.SingleOrDefaultAsync();
+
+            return await _collection.AsQueryable().ToListAsync();
+        }
     }
 }
