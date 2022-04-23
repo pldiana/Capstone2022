@@ -5,6 +5,7 @@
 @inject IHttpClientFactory ClientFactory
 @using Models;
 
+
 <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
 <MudGrid>
     <MudItem xs="12" sm="6" md="3">
@@ -12,7 +13,7 @@
             <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Color="Color.Primary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
                 <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Portfolio Amount</MudText>
-                <MudText Typo="Typo.h5">@PortfolioAmount.ToString("C2")</MudText>
+                <MudText Typo="Typo.h5">@PortfolioAmount.ToString("C", us)</MudText>
             </div>
         </MudPaper>
     </MudItem>
@@ -89,8 +90,8 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><MudChip Label="true" Color="Color.Success" Size="Size.Small" Class="ml-auto mud-elevation-25">@report.MonthlyStartingBalance.ToString("C2")</MudChip></td>
-                                <td><MudText Color="@(report.MonthlyDifference <= 0 ? Color.Error : Color.Success)">@report.MonthlyDifference.ToString("C2")</MudText></td>
+                                <td><MudChip Label="true" Color="Color.Success" Size="Size.Small" Class="ml-auto mud-elevation-25">@report.MonthlyStartingBalance.ToString("C", us)</MudChip></td>
+                                <td><MudText Color="@(report.MonthlyDifference <= 0 ? Color.Error : Color.Success)">@report.MonthlyDifference.ToString("C", us)</MudText></td>
                             </tr>
                         }
                     </tbody>
@@ -152,8 +153,8 @@ Visit our
 
 
 @code {
-
-    decimal PortfolioAmount = 0.0m;
+    System.Globalization.CultureInfo us = new System.Globalization.CultureInfo("en-US");
+    decimal PortfolioAmount = 22644.36m;
     ArticleList articleResp; //KD -> Testing scope issue
 
     //class NewsFeed
@@ -164,9 +165,12 @@ Visit our
 
     EarningReport[] earningReports = new EarningReport[]
 {
-            new EarningReport { EarningReportDate = new DateTime(2021, 12, 1), MonthlyStartingBalance = 39117.35m, MonthlyDifference = 2891.83m},
+            new EarningReport { EarningReportDate = new DateTime(2021, 11, 1), MonthlyStartingBalance = 38213.22m, MonthlyDifference = 534.22m},
+            new EarningReport { EarningReportDate = new DateTime(2021, 12, 1), MonthlyStartingBalance = 39117.35m, MonthlyDifference = 904.13m},
             new EarningReport { EarningReportDate = new DateTime(2022, 1, 1), MonthlyStartingBalance = 39000.00m, MonthlyDifference = -117.35m},
             new EarningReport { EarningReportDate = new DateTime(2022, 2, 1), MonthlyStartingBalance = 43366.83m, MonthlyDifference = 4366.83m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 3, 1), MonthlyStartingBalance = 41343.69m, MonthlyDifference = -2023.14m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 4, 1), MonthlyStartingBalance = 45224.66m, MonthlyDifference = 3880.97m}
 
              };
 
@@ -179,20 +183,6 @@ Visit our
 
     //Kevin Dietz Changes.  Creating dummy objects to populate the chart
     private int Index = -1;
-
-    public List<ChartSeries> Series = new List<ChartSeries>()
-{
-        new ChartSeries() {Name = "Personal Account", Data = new double[] {33933.16, 32100.01, 34113.23, 34300.84, 34800.19, 34400.88, 36117.44, 37918.45, 38504.30, 39117.35, 42009.18, 43366.83}},
-        new ChartSeries() {Name = "Market Trend", Data = new double[] {31933.16, 33100.01, 33113.23, 32300.84, 35800.19, 31400.88, 33117.44, 31918.45, 34504.30, 39117.35, 40009.18, 37366.83}}
-    };
-
-    //K Dietz creating Index label for chart
-    public string[] XAxisLabels = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-
-    //K Dietz creating Pie chart data
-
-    double[] data = { 65, 15, 12, 8 };
-    string[] labels = { "Stock Market", "Bonds", "Crypto Trading", "Other" };  //Just creates Lables
 
     //K Dietz code for mock up data for Monthly balances
 
@@ -226,13 +216,13 @@ Visit our
             }
         }
 
-        if (userData != null)
+        @*if (userData != null)
         {
             if (userData.ContainsKey("PortfolioAmount"))
             {
                 decimal.TryParse(userData["PortfolioAmount"].ToString(), out PortfolioAmount);
             }
-        }
+        }*@
 
     }
     private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
