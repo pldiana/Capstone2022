@@ -153,9 +153,9 @@ Visit our
 
 
 @code {
-    System.Globalization.CultureInfo us = new System.Globalization.CultureInfo("en-US");
+    System.Globalization.CultureInfo us = new System.Globalization.CultureInfo("en-US");  //KD Added this for Currency Conversion to work.  Has to be passed in to the ToString("C", us).  
     decimal PortfolioAmount = 22644.36m;
-    ArticleList articleResp; //KD -> Testing scope issue
+    ArticleList articleResp; //KD -> 
 
     //class NewsFeed
     //{
