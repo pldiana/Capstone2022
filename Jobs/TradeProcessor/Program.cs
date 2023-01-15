@@ -24,8 +24,12 @@ namespace TradeProcessor
                     IMongoClient client = new MongoClient("mongodb+srv://CapstoneTest2022:CryptoDevil2022@cluster0.qa0sl.mongodb.net/CryptoDevil?retryWrites=true&w=majority");
                     IMongoDatabase database = client.GetDatabase("CryptoDevil");
                     var userExchangeCollection = database.GetCollection<UserExchange>("UserExchange");
+                    var candleCollection = database.GetCollection<Candle>("Candles");
                     UserExchangeDA userExchangeDA = new UserExchangeDA(userExchangeCollection);
+                    CandleDataDA candleDataDA = new CandleDataDA(candleCollection);
+                    services.AddSingleton<ICandleDataDA>(candleDataDA);
                     services.AddSingleton<IUserExchangeDA>(userExchangeDA);
+                    
                     services.AddHostedService<CryptoDevilWorker>();
                 });
     }

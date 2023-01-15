@@ -41,8 +41,11 @@ namespace CryptoDevilAPI
             IMongoDatabase database = client.GetDatabase("CryptoDevil");
             var userExchangeCollection = database.GetCollection<UserExchange>("UserExchange");
             var exchangeCollection = database.GetCollection<Exchange>("Exchange");
+            var candleCollection = database.GetCollection<Candle>("Candles");
+            CandleDataDA candleDataDA = new CandleDataDA(candleCollection);            
             ExchangeDA exchangeDA = new ExchangeDA(exchangeCollection);
             UserExchangeDA userExchangeDA = new UserExchangeDA(userExchangeCollection);
+            services.AddSingleton<ICandleDataDA>(candleDataDA);
             services.AddSingleton<IExchangeDA>(exchangeDA);
             services.AddSingleton<IUserExchangeDA>(userExchangeDA);
             services.AddScoped<IUserExchangeRepository, UserExchangeRepository>();

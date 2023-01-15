@@ -12,7 +12,7 @@
             <MudIcon Icon="@Icons.Material.Filled.AttachMoney" Color="Color.Primary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
                 <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Portfolio Amount</MudText>
-                <MudText Typo="Typo.h5">@PortfolioAmount.ToString("C2")</MudText>
+                <MudText Typo="Typo.h5">@PortfolioAmount.ToString("C", us)</MudText>
             </div>
         </MudPaper>
     </MudItem>
@@ -21,7 +21,7 @@
             <MudIcon Icon="@Icons.Material.Filled.PriceChange" Color="Color.Secondary" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
                 <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Current Exchange Rate</MudText>
-                <MudText Typo="Typo.h5">$43,804.01</MudText>
+                <MudText Typo="Typo.h5">$44,925.52</MudText>
             </div>
         </MudPaper>
     </MudItem>
@@ -39,13 +39,13 @@
             <MudIcon Icon="@Icons.Filled.Calculate" Color="Color.Warning" Class="mx-4" Style="width:54px; height:54px;"></MudIcon>
             <div>
                 <MudText Typo="Typo.subtitle1" Class="mud-text-secondary mb-n1">Rate Of Return</MudText>
-                <MudText Typo="Typo.h5">17%</MudText>
+                <MudText Typo="Typo.h5">15%</MudText>
             </div>
         </MudPaper>
     </MudItem>
     <!--<MudItem xs="12">-->
-        @*took out "sm="8" -> K Dietz*@
-        <!--<MudPaper Class="pa-4" Style="height:350px;">
+    @*took out "sm="8" -> K Dietz*@
+    <!--<MudPaper Class="pa-4" Style="height:350px;">
             <div>
                 <MudChart ChartType="ChartType.Line" ChartSeries="@Series" @bind-SelectedIndex="Index" XAxisLabels="@XAxisLabels" Width="100%" Height="200px"></MudChart>
                 <MudButtonGroup Class="d-flex align-center justify-center" Color="Color.Primary" Variant="Variant.Filled" DisableElevation="true">
@@ -90,7 +90,7 @@
                                     </div>
                                 </td>
                                 <td><MudChip Label="true" Color="Color.Success" Size="Size.Small" Class="ml-auto mud-elevation-25">@report.MonthlyStartingBalance.ToString("C2")</MudChip></td>
-                                <td><MudText Color="@(report.MonthlyDifference <= 0 ? Color.Error : Color.Success)">@report.MonthlyDifference.ToString("C2")</MudText></td>
+                                <td><MudText Color="@(report.MonthlyDifference <= 0 ? Color.Error : Color.Success)">@report.MonthlyDifference.ToString("C", us)</MudText></td>
                             </tr>
                         }
                     </tbody>
@@ -153,6 +153,8 @@ Visit our
 
 @code {
 
+    System.Globalization.CultureInfo us = new System.Globalization.CultureInfo("en-US");  //KD Added this for Currency Conversion to work.  Has to be passed in to the ToString("C", us).
+
     decimal PortfolioAmount = 0.0m;
     ArticleList articleResp; //KD -> Testing scope issue
 
@@ -163,12 +165,18 @@ Visit our
     //}
 
     EarningReport[] earningReports = new EarningReport[]
-{
+        {
+            new EarningReport { EarningReportDate = new DateTime(2021, 11, 1), MonthlyStartingBalance = 38213.22m, MonthlyDifference = 534.22m},
+            new EarningReport { EarningReportDate = new DateTime(2021, 12, 1), MonthlyStartingBalance = 39117.35m, MonthlyDifference = 904.13m},
             new EarningReport { EarningReportDate = new DateTime(2021, 12, 1), MonthlyStartingBalance = 39117.35m, MonthlyDifference = 2891.83m},
             new EarningReport { EarningReportDate = new DateTime(2022, 1, 1), MonthlyStartingBalance = 39000.00m, MonthlyDifference = -117.35m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 1, 1), MonthlyStartingBalance = 39000.00m, MonthlyDifference = -117.35m},
             new EarningReport { EarningReportDate = new DateTime(2022, 2, 1), MonthlyStartingBalance = 43366.83m, MonthlyDifference = 4366.83m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 2, 1), MonthlyStartingBalance = 43366.83m, MonthlyDifference = 4366.83m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 3, 1), MonthlyStartingBalance = 41343.69m, MonthlyDifference = -2023.14m},
+            new EarningReport { EarningReportDate = new DateTime(2022, 4, 1), MonthlyStartingBalance = 45224.66m, MonthlyDifference = 3880.97m}
 
-             };
+            };
 
     class EarningReport
     {
