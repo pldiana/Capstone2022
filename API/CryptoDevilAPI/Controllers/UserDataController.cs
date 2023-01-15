@@ -26,7 +26,7 @@ namespace CryptoDevilAPI.API.Controllers
         {
             _logger = logger;
             _userRepository = userRepository;
-            _userExchangeRepository = userExchangeRepository;                
+            _userExchangeRepository = userExchangeRepository;
         }
 
         [HttpGet]
@@ -43,17 +43,42 @@ namespace CryptoDevilAPI.API.Controllers
             {
                 var exchangeInstanceList = userExchange.ExchangeList.Where(x => x.Exchange.Name.ToLower() == "coinbase").ToList();
                 List<IUserDataDA> userDataList = new List<IUserDataDA>();
+                var result = await _userRepository.GetPortfolioDataAsync(userExchange);
+                return Ok(result);
+            }
+        }
 
+        [HttpGet]
+        //[Authorize]
+        [Route("{userId}/orders/filled")]
+        public async Task<ActionResult> GetOrdersFilled(string userId)
                 foreach (var exchangeInstance in exchangeInstanceList)
-                {
+        {
                     userDataList.Add(new CoinbaseUserDataDA(new CoinbaseProClient(new Authenticator(exchangeInstance.Key, exchangeInstance.Signature, exchangeInstance.Phrase), exchangeInstance.IsSandbox.HasValue? exchangeInstance.IsSandbox.Value: false)));
-                }
+            var result = await _userRepository.GetOrdersFilledAsync(userId);
+            return Ok(result);
+        }
 
+        [HttpGet]
+        //[Authorize]
+        [Route("{userId}/orders/open")]
+        public async Task<ActionResult> GetOrdersOpen(string userId)
+        {
+            var result = await _userRepository.GetOrdersOpenAsync(userId);
                 _userRepository.UserDataList = userDataList;
 
                 var result = await _userRepository.GetPortfolioDataAsync();
-                return Ok(result);
-            }
+            return Ok(result);
+        }
+
+        [HttpGet]
+        //[Authorize]
+        [Route("{userId}/runs")]
+        public async Task<ActionResult> GetCompletedRuns(string userId)
+        {
+            var result = await _userRepository.GetCompletedRunsAsync(userId);
+            return Ok(result);
+ 
         }
     }
 }

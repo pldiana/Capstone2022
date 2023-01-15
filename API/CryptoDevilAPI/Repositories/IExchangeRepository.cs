@@ -8,6 +8,7 @@ namespace CryptoDevilAPI.Repositories
 {
     public interface IExchangeRepository
     {
-        Task InsertOneAsync(Exchange exchange);
+        Task <List<Exchange>> GetAllExchangesAsync();
+        Task<Exchange> GetOneExchangeAsync(string exchangeName);
     }
 }

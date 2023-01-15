@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.IdGenerators;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
@@ -28,6 +30,9 @@ namespace Models
         public string StrategyType { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public decimal? CurrentPrice { get; set; }
+
+        [BsonId(IdGenerator = typeof(ObjectIdGenerator))]
+        public Object Id { get; set; }
 
     }
 }

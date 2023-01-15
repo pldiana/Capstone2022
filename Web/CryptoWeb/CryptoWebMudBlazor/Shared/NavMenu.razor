@@ -32,7 +32,11 @@
                 <MudNavLink Href="pages/admin/usermanagement" Icon="@Icons.Material.Outlined.InsertDriveFile">User Management</MudNavLink>
             </MudNavGroup>
             <MudNavGroup Title="Trading" Icon="@Icons.Material.Outlined.Assignment" HideExpandIcon="true">
-                <MudNavLink Href="pages/trading/history" Icon="@Icons.Material.Outlined.InsertDriveFile">History</MudNavLink>
+                <MudNavGroup Title="History" Icon="@Icons.Material.Outlined.Assignment" HideExpandIcon="true">
+                    <MudNavLink Href="pages/trading/user/history/filledhistory" Icon="@Icons.Material.Outlined.InsertDriveFile">Filled</MudNavLink>
+                    <MudNavLink Href="pages/trading/user/history/openhistory" Icon="@Icons.Material.Outlined.InsertDriveFile">Open</MudNavLink>
+                    <MudNavLink Href="pages/trading/user/history/runscandles" Icon="@Icons.Material.Outlined.InsertDriveFile">Runs & Candles</MudNavLink>
+                </MudNavGroup>                
                 <MudNavLink Href="pages/trading/user/exchangemanagement" Icon="@Icons.Material.Outlined.InsertDriveFile">My Exchanges</MudNavLink>
             </MudNavGroup>
             <MudNavLink Href="/pages/alerts" Icon="@Icons.Material.Outlined.Error">Alerts</MudNavLink>

@@ -9,5 +9,8 @@ namespace CryptoDevilAPI.DataAccess
     public interface IUserDataDA
     {
         Task<decimal> TotalPortfolioValueAsync();
+        Task<List<OrderResponse>> OpenOrdersAsync();
+        Task<List<OrderResponse>> FilledOrdersAsync();
+        Task<List<Candle>> CompletedRunsAsync();
     }
 }

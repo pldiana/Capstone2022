@@ -13,8 +13,10 @@ namespace Models
         public decimal? LiquidationPercentage { get; set; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, object> Settings { get; set; }
+        public dynamic Settings { get; set; }
         public List<CryptoToken> Tokens { get; set; }
         public Strategy StrategyDetail { get; set; }
+        public bool? IsActive { get; set; } 
+        public Candle ActiveCandle { get; set; }
     }
 }

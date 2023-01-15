@@ -34,6 +34,41 @@
                     <MudTd>@Item.Exchange.Name</MudTd>
                     <MudTd>@Item.AccountName</MudTd>
                     <MudTd>@Item.Key</MudTd>
+                    <MudTd>
+                        @*NEW*@
+                        <MudButton Link="@($"/pages/trading/user/exchange/{Item.Exchange.Name}/strategy/add")"
+                               Target="_self"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.Add"
+                               Color="Color.Primary">
+                            Add Strategy
+                        </MudButton>
+                        <br />
+                        <br />
+                        <MudTable Items="@Item.StrategyList" Context="StrategyContext">
+                            <HeaderContent>
+                                <MudTh>Enable/Disable</MudTh>
+                                <MudTh>Name</MudTh>
+                                @*<MudTh>Active</MudTh>*@
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd>
+                                    @*<MudButton Link="@($"/pages/admin/exchangestrategyedit/{context.Name}/{StrategyContext.Name}")"
+                                        Target="_self"
+                                        Variant="Variant.Filled"
+                                        StartIcon="@Icons.Material.Filled.Edit"
+                                        Color="Color.Primary">
+                                        Edit
+                                        </MudButton>
+                                        <br />
+                                        <br />*@
+                                    <MudSwitch Color="Color.Primary" @bind-Checked=@(StrategyContext.IsActive) Label="@(StrategyContext.IsActive.HasValue && StrategyContext.IsActive.Value ? "Enabled" : "Disabled")" />
+                                </MudTd>
+                                <MudTd>@StrategyContext.StrategyDetail.Name</MudTd>
+                                @*<MudTd>@StrategyContext.IsActive</MudTd>*@
+                            </RowTemplate>
+                        </MudTable>
+                    </MudTd>
                 </RowTemplate>
             </MudTable>
         }

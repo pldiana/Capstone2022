@@ -14,5 +14,9 @@ namespace Models
         public string Base { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public decimal? TradeAmount { get; set; }
+        public TimeFrame? Period { get; set; }
+       
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public dynamic Properties { get; set; }
     }
 }

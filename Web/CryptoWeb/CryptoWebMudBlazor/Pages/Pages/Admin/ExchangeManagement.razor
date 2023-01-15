@@ -96,45 +96,5 @@
         _httpClient.BaseAddress = new Uri("https://localhost:5001/admin/exchange");
 
         _exchanges = await _httpClient.GetFromJsonAsync<List<Exchange>>("");
-
-        //_exchanges = new List<Exchange>()
-        //{
-        //    new Exchange()
-        //    {
-        //        Name = "TestExchange1",
-        //        IsActive = true,
-        //        AvailableStrategies = new List<Strategy>()
-        //        {
-        //            new Strategy()
-        //            {
-        //                IsActive = true,
-        //                Name = "TestStrategy1",
-        //            },
-        //            new Strategy()
-        //            {
-        //                IsActive = true,
-        //                Name = "TestStrategy2",
-        //            }
-        //        }
-        //    },
-        //    new Exchange()
-        //    {
-        //        Name = "TestExchange2",
-        //        IsActive = false,
-        //        AvailableStrategies = new List<Strategy>()
-        //        {
-        //            new Strategy()
-        //            {
-        //                IsActive = true,
-        //                Name = "TestStrategy1",
-        //            },
-        //            new Strategy()
-        //            {
-        //                IsActive = true,
-        //                Name = "TestStrategy2",
-        //            }
-        //        }
-        //    }
-        //};
     }
 }
