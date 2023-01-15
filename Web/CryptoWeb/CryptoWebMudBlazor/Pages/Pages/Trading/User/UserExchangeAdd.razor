@@ -55,10 +55,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        ExchangeList.Add("Coinbase");
-
         var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
-
         var user = authState.User;
         var email = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
         var _httpClient = new HttpClient();

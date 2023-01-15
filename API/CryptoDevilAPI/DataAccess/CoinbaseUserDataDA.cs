@@ -1,6 +1,5 @@
 ﻿using CoinbasePro;
 using CoinbasePro.Network.Authentication;
-using CryptoDevilAPI.Extensions;
 using Models;
 using Models.CryptoWatch;
 using MongoDB.Driver;
@@ -18,28 +17,6 @@ namespace CryptoDevilAPI.DataAccess
         {
             _client = client;
         }
-
-        public Task<List<Candle>> CompletedRunsAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<List<OrderResponse>> FilledOrdersAsync()
-        {
-            var filledOrders = await _client.OrdersService.GetAllOrdersAsync(CoinbasePro.Services.Orders.Types.OrderStatus.All);
-            string[] statusArray = new string[] { "Done", "Settled" };
-
-            return filledOrders.ConvertToOrderResponseList().Where(x => statusArray.Contains(x.Status)).ToList();
-        }
-
-        public async Task<List<OrderResponse>> OpenOrdersAsync()
-        {
-            var activeOrders = await _client.OrdersService.GetAllOrdersAsync(CoinbasePro.Services.Orders.Types.OrderStatus.All);
-            string[] statusArray = new string[] { "Active", "Open", "Pending" };
-
-            return activeOrders.ConvertToOrderResponseList().Where(x => statusArray.Contains(x.Status)).ToList();
-        }
-
         public async Task<decimal> TotalPortfolioValueAsync()
         {
             var accounts = (await _client.AccountsService.GetAllAccountsAsync()).ToList();

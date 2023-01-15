@@ -674,18 +674,17 @@ namespace TradeProcessor
                 if (strategyAccount != null)
                 {
 
-                    var precision = _exchangeClient.ProductsService.GetAllProductsAsync().GetAwaiter().GetResult();                    
+                    var precision = _exchangeClient.ProductsService.GetAllProductsAsync().GetAwaiter().GetResult();
+
                     var product = precision.Where(w => w.BaseCurrency == token.Symbol.ToUpper() && w.QuoteCurrency == "USD").SingleOrDefault();
-                    var ticker = await _exchangeClient.ProductsService.GetProductTickerAsync(product.Id);
                     decimal amountToBuy;
                     if (product != null)
                     {
                         int priceprecision = BitConverter.GetBytes(decimal.GetBits(product.QuoteIncrement)[3])[2];
                         int quanityprecision = BitConverter.GetBytes(decimal.GetBits(product.BaseIncrement)[3])[2];
-                        if (usdAccount.Available > 1.001m) //&& (strategyAccount.Balance * strategy.ActiveCandle.CurrentPrice.Value) <= token.TradeAmount.Value * 10.0m)
+                        if (usdAccount.Available > 1.001m && (strategyAccount.Balance * strategy.ActiveCandle.CurrentPrice.Value) <= token.TradeAmount.Value * 10.0m)
                         {
-                            var price = decimal.Round(ticker.Price * .997M, priceprecision, MidpointRounding.ToZero);
-                            //var price = decimal.Round(strategy.ActiveCandle.CurrentPrice.Value * .997M, priceprecision, MidpointRounding.ToZero);
+                            var price = decimal.Round(strategy.ActiveCandle.CurrentPrice.Value * .997M, priceprecision, MidpointRounding.ToZero);
                             price = ((price == 0.0m && priceprecision == 2) ? 0.01m : price);
                             amountToBuy = (usdAccount.Available / price);//* .995M;
                             if (token.TradeAmount < usdAccount.Available)
@@ -741,13 +740,12 @@ namespace TradeProcessor
                 {
 
                     var precision = _exchangeClient.ProductsService.GetAllProductsAsync().GetAwaiter().GetResult();
+
                     var product = precision.Where(w => w.BaseCurrency == token.Symbol.ToUpper() && w.QuoteCurrency == "USD").SingleOrDefault();
-                    var ticker = await _exchangeClient.ProductsService.GetProductTickerAsync(product.Id);
                     int priceprecision = BitConverter.GetBytes(decimal.GetBits(product.QuoteIncrement)[3])[2];
                     int quanityprecision = BitConverter.GetBytes(decimal.GetBits(product.BaseIncrement)[3])[2];
 
-                    var price = decimal.Round(ticker.Price, priceprecision, MidpointRounding.ToZero);
-                    //var price = decimal.Round(strategy.ActiveCandle.CurrentPrice.HasValue ? strategy.ActiveCandle.CurrentPrice.Value : 0.0m * 1.0015M, priceprecision, MidpointRounding.ToZero);
+                    var price = decimal.Round(strategy.ActiveCandle.CurrentPrice.HasValue ? strategy.ActiveCandle.CurrentPrice.Value : 0.0m * 1.0015M, priceprecision, MidpointRounding.ToZero);
                     var quanity = decimal.Round(strategyAccount.Available, quanityprecision, MidpointRounding.ToZero);
                     if (product.BaseIncrement <= quanity && quanity > product.BaseMinSize)
                     {

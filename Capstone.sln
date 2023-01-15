@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoWebMudBlazor", "Web\C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{69C14BE3-14EA-4815-899F-37B23E061DF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeProcessor", "Jobs\TradeProcessor\TradeProcessor.csproj", "{CBD94B1A-9D40-43F5-816E-71789C119A91}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradeProcessor", "Jobs\TradeProcessor\TradeProcessor.csproj", "{CBD94B1A-9D40-43F5-816E-71789C119A91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

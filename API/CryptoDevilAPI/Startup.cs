@@ -42,12 +42,12 @@ namespace CryptoDevilAPI
             var userExchangeCollection = database.GetCollection<UserExchange>("UserExchange");
             var exchangeCollection = database.GetCollection<Exchange>("Exchange");
             var candleCollection = database.GetCollection<Candle>("Candles");
-            CandleDataDA candleDataDA = new CandleDataDA(candleCollection);            
             ExchangeDA exchangeDA = new ExchangeDA(exchangeCollection);
             UserExchangeDA userExchangeDA = new UserExchangeDA(userExchangeCollection);
-            services.AddSingleton<ICandleDataDA>(candleDataDA);
+            CandleDataDA candleDataDA = new CandleDataDA(candleCollection);
             services.AddSingleton<IExchangeDA>(exchangeDA);
             services.AddSingleton<IUserExchangeDA>(userExchangeDA);
+            services.AddSingleton<ICandleDataDA>(candleDataDA);
             services.AddScoped<IUserExchangeRepository, UserExchangeRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
