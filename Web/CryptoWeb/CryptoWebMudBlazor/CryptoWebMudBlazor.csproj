@@ -9,6 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Auth0.AspNetCore.Authentication" Version="1.0.1" />
+		<PackageReference Include="GDAX.Api.ClientLibrary" Version="1.0.51" />
 		<PackageReference Include="MudBlazor" Version="6.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.2" />
 	</ItemGroup>

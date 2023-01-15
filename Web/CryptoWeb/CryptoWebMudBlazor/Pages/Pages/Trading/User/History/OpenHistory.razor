@@ -1,0 +1,74 @@
+﻿@page "/pages/trading/user/history/openhistory"
+@using Models
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+
+<AuthorizeView>
+    <Authorized>
+        <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+        <MudTable Context="Order" Items="@_orders">
+            <HeaderContent>
+                <MudTh></MudTh>
+                <MudTh>Date</MudTh>
+                <MudTh>Side</MudTh>
+                <MudTh>Token</MudTh>
+                <MudTh>Size</MudTh>
+                <MudTh>Time Open</MudTh>
+                <MudTh>Price</MudTh>
+                <MudTh>Status</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd></MudTd>
+                <MudTd>@Order.CreatedAt.ToLocalTime()</MudTd>
+                <MudTd>@Order.Side</MudTd>
+                <MudTd>@Order.ProductId</MudTd>
+                <MudTd>@Order.Size</MudTd>
+                <MudTd> @timeOpen(Order.CreatedAt) </MudTd>
+                <MudTd>@Order.Price.Value.ToString("C2")</MudTd>
+                <MudTd>@Order.Status</MudTd>
+
+            </RowTemplate>
+        </MudTable>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+
+    public string timeOpen(DateTime createdAt)
+    {
+        TimeSpan t = TimeSpan.FromTicks((DateTime.UtcNow - createdAt).Ticks);
+        string s = "{0}d : {1}h : {2}m";
+        return string.Format(s, t.Days, t.Hours, t.Minutes);
+
+    }
+
+    private List<OrderResponse> _orders = new List<OrderResponse>();
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/personal/dashboard"),
+        new BreadcrumbItem("History (Open)", href: "/pages/trading/user/history/openhistory"),
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var _httpClient = new HttpClient();
+
+        var emailClaim = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
+
+        if (emailClaim != null)
+        {
+            var email = emailClaim.Value;
+            string uriString = $"https://localhost:5001/user/{email}/orders/open";
+            _httpClient.BaseAddress = new Uri(uriString);
+            try
+            {
+                _orders = await _httpClient.GetFromJsonAsync<List<OrderResponse>>("");
+            }
+            catch
+            {
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -14,6 +14,10 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
 
 var services = builder.Services;
+
+//**Kevin adding http client test
+services.AddHttpClient();
+//End Kevin Test
 var Configuration = builder.Configuration;
 
 services.AddAuthentication(options =>

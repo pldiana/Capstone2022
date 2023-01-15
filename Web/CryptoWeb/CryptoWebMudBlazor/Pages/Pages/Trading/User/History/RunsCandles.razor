@@ -1,0 +1,67 @@
+﻿@page "/pages/trading/user/history/runscandles"
+@using Models
+@inject AuthenticationStateProvider GetAuthenticationStateAsync
+
+<AuthorizeView>
+    <Authorized>
+        <MudBreadcrumbs Items="_items"></MudBreadcrumbs>
+        <MudTable Context="RunCandleItem" Items="@_candles">
+            <HeaderContent>
+                <MudTh></MudTh>
+                <MudTh>Date</MudTh>
+                <MudTh>Token</MudTh>
+                <MudTh>Strategy Type</MudTh>
+                <MudTh>Advice</MudTh>
+                <MudTh>Current Price</MudTh>
+                <MudTh>Volume</MudTh>
+                <MudTh>High</MudTh>
+                <MudTh>Low</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd></MudTd>
+                <MudTd>@RunCandleItem.DateTime.DateTime.ToLocalTime()</MudTd>
+                <MudTd>@RunCandleItem.Symbol</MudTd>
+                <MudTd>@RunCandleItem.TradeAdvice</MudTd>
+                <MudTd>@RunCandleItem.StrategyType</MudTd>                
+                <MudTd>@RunCandleItem.CurrentPrice.Value.ToString("C2")</MudTd>
+                <MudTd>@RunCandleItem.Volume</MudTd>
+                <MudTd>@RunCandleItem.High.ToString("C2")</MudTd>
+                <MudTd>@RunCandleItem.Low.ToString("C2")</MudTd>
+            </RowTemplate>
+        </MudTable>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+
+    private List<Candle> _candles = new List<Candle>();
+
+    private List<BreadcrumbItem> _items = new List<BreadcrumbItem>
+    {
+        new BreadcrumbItem("Home", href: "/personal/dashboard"),
+        new BreadcrumbItem("Runs & Candles", href: "/pages/trading/user/history/runscandles"),
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var _httpClient = new HttpClient();
+
+        var emailClaim = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
+
+        if (emailClaim != null)
+        {
+            var email = emailClaim.Value;
+            string uriString = $"https://localhost:5001/user/{email}/runs";
+            _httpClient.BaseAddress = new Uri(uriString);
+            try
+            {
+                _candles = await _httpClient.GetFromJsonAsync<List<Candle>>("");
+            }
+            catch
+            {
+            }
+        }
+    }
+}

@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoDevilAPI_Tests", "API
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoWebMudBlazor", "Web\CryptoWeb\CryptoWebMudBlazor\CryptoWebMudBlazor.csproj", "{820A98C3-6C32-443E-9A5D-418B8B89BE94}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{69C14BE3-14EA-4815-899F-37B23E061DF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeProcessor", "Jobs\TradeProcessor\TradeProcessor.csproj", "{CBD94B1A-9D40-43F5-816E-71789C119A91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,10 @@ Global
 		{820A98C3-6C32-443E-9A5D-418B8B89BE94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{820A98C3-6C32-443E-9A5D-418B8B89BE94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{820A98C3-6C32-443E-9A5D-418B8B89BE94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBD94B1A-9D40-43F5-816E-71789C119A91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBD94B1A-9D40-43F5-816E-71789C119A91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBD94B1A-9D40-43F5-816E-71789C119A91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBD94B1A-9D40-43F5-816E-71789C119A91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +56,7 @@ Global
 		{E8D0D156-5563-4ECB-889F-FDC30C5866D7} = {2DCD0C65-24AE-41CB-9D61-8FB3DD9A4BE1}
 		{440AABEB-0114-4D1A-B980-F34EAACD7863} = {2DCD0C65-24AE-41CB-9D61-8FB3DD9A4BE1}
 		{820A98C3-6C32-443E-9A5D-418B8B89BE94} = {C2792E6F-9DE3-4B7A-AB27-15B9B35E79CD}
+		{CBD94B1A-9D40-43F5-816E-71789C119A91} = {69C14BE3-14EA-4815-899F-37B23E061DF6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD43EFAC-71E6-4C16-B097-E0AB79646C46}

@@ -22,6 +22,6 @@ namespace CryptoDevilAPI_Tests
             IMongoClient client = new MongoClient("mongodb://localhost:27017/");
             IMongoDatabase database = client.GetDatabase("CryptoDevil");
             _userExchangeCollection = database.GetCollection<UserExchange>("UserExchange");
-        } 
+        }
     }
 }

@@ -13,24 +13,24 @@
                     <MudCard>
                         <MudCardContent>
                             <MudSelect @bind-Value="value" Label="Select your exchange" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" Clearable>
-                                @foreach (var exchange in ExchangeList)
+                                @foreach (var exchange in ExchangeList.Select(x => x.Name).ToList())
                                 {
                                     <MudSelectItem T="string" Value="@exchange">@exchange</MudSelectItem>
                                 }
                             </MudSelect>
                             <MudTextField Label="Account Name"
-                                @bind-Value="ExchangeInstance.AccountName" />
-                                <br />
+                                          @bind-Value="ExchangeInstance.AccountName" />
+                            <br />
                             @*<MudSwitch Color="Color.Primary" @bind-Checked=@(ExchangeItem.IsActive) Label="@(ExchangeItem.IsActive.HasValue && ExchangeItem.IsActive.Value ? "Enabled" : "Disabled")" />@**@
                             <MudTextField Label="Key"
-                                @bind-Value="ExchangeInstance.Key" />
-                                <br />
+                                          @bind-Value="ExchangeInstance.Key" />
+                            <br />
                             <MudTextField Label="Signature"
-                                @bind-Value="ExchangeInstance.Signature" />
-                                <br />
+                                          @bind-Value="ExchangeInstance.Signature" />
+                            <br />
                             <MudTextField Label="Phrase"
-                                @bind-Value="ExchangeInstance.Phrase" />
-                                <br />
+                                          @bind-Value="ExchangeInstance.Phrase" />
+                            <br />
                             <MudSwitch Color="Color.Primary" @bind-Checked=@(ExchangeInstance.IsSandbox) Label="@(ExchangeInstance.IsSandbox.HasValue && ExchangeInstance.IsSandbox.Value ? "Sandbox" : "Not Sandbox")" />
                             <MudButton ButtonType="ButtonType.Submit" @onclick="@OnSubmitExchange" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Submit</MudButton>
                         </MudCardContent>
@@ -49,22 +49,25 @@
 @code {
 
     private string value { get; set; } = "Nothing selected";
-    public List<string> ExchangeList { get; set; } = new List<string>();
+    public List<Exchange> ExchangeList { get; set; } = new List<Exchange>();
     public UserExchange UserExchange { get; set; } = new UserExchange();
     public ExchangeInstance ExchangeInstance { get; set; } = new ExchangeInstance();
 
     protected async override Task OnInitializedAsync()
     {
-        ExchangeList.Add("Coinbase");
-
         var authState = await GetAuthenticationStateAsync.GetAuthenticationStateAsync();
-
         var user = authState.User;
         var email = user.Claims.Where(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress").SingleOrDefault();
         var _httpClient = new HttpClient();
 
         _httpClient.BaseAddress = new Uri($"https://localhost:5001/user/{email.Value}/exchange");
         UserExchange = await _httpClient.GetFromJsonAsync<UserExchange>("");
+
+        var httpClientExchanges = new HttpClient();
+        httpClientExchanges.BaseAddress = new Uri($"https://localhost:5001/exchanges");
+
+        ExchangeList = await httpClientExchanges.GetFromJsonAsync<List<Exchange>>("");
+
     }
 
     protected void OnSubmitExchange(MouseEventArgs mouseEventArgs)
@@ -76,10 +79,13 @@
         {
             UserExchange.ExchangeList = new List<ExchangeInstance>();
         }
-        ExchangeInstance.Exchange = new Exchange()
+        if (value != "Nothing selected")
         {
-            Name = "Coinbase"
-        };
+            ExchangeInstance.Exchange = new Exchange()
+            {
+                Name = value
+            };
+        }
 
         ExchangeInstance.IsActive = false;
 
